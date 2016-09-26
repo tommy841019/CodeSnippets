@@ -11,27 +11,60 @@ import java.util.List;
 
 public class CodeSnippets
 {
-	public static void main(String[] args)
-	{
-		CodeSnippets cs = new CodeSnippets();
-		long start = System.currentTimeMillis();
-
-		List<String> times = cs.readBinaryWatch(3);
-		
-		System.out.println(String.format("Time: %dms", System.currentTimeMillis() - start));
-		
-		Iterator<String> it = times.iterator();
-		while(it.hasNext())
-			System.out.print(String.format("%s ", it.next()));
-	}
-	
-	
-// === 09/23/2016 ===
-	
-	
-	//200. Number of Islands
-    public int numIslands(char[][] grid) 
+    public static void main(String[] args)
     {
+        CodeSnippets cs = new CodeSnippets();
+        long start = System.currentTimeMillis();
+
+        System.out.println(cs.toHex(-1));
+
+        System.out.println(String.format("Time: %dms", System.currentTimeMillis() - start));
+
+    }
+	
+	
+// === 09/26/2016 ===
+    
+    
+    //H 287. Find the Duplicate Number
+    
+    
+    //E 405. Convert a Number to Hexadecimal
+    // PASS
+    // think in binary
+    // -1 -> 1111 1111 1111 1111 1111 1111 1111 1111
+    // to get last digit: number & 0b1111 or 15 or 0xf)
+    // StringBuilder has a reverse() function to output string in reverse order
+    public String toHex(int num) {
+        if(num ==0) return "0";
+        
+        StringBuilder sb = new StringBuilder();
+        
+        while(num != 0){
+            int digit = num & 0xf;
+            sb.append(digit < 10 ? (char)(digit+'0') : (char)('a'+digit-10));
+            num = num>>>4;
+        }
+        
+        return sb.reverse().toString();
+    }
+    
+    
+    //E 404. Sum of Left Leaves
+    // PASS
+    // It only includes LEAVES!!!
+    public int sumOfLeftLeaves(TreeNode root) {
+        if(root == null) return 0;
+        return (root.left != null && isALeaf(root.left) ? root.left.val : 0) + sumOfLeftLeaves(root.left) + sumOfLeftLeaves(root.right);
+    }
+    public boolean isALeaf(TreeNode node) {
+        return node.left == null && node.right == null;
+    }
+        
+	
+    //M 200. Number of Islands
+    //
+    public int numIslands(char[][] grid) {
         if(grid == null) return -1;
         int rowNum = grid.length;
         int colNum = grid[0].length;
@@ -40,27 +73,27 @@ public class CodeSnippets
     }
 	
 	
-    //401. Binary Watch
+    //E 401. Binary Watch
+    //
     // separate to hrs and minutes, then combine
-    public List<String> readBinaryWatch(int num) 
-    {
+    public List<String> readBinaryWatch(int num) {
     	
-    	LinkedList<String> times = new LinkedList<String>();
+    	LinkedList<String> times = new LinkedList<>();
         for(int i=0;i<=num;i++)
         {
-        	LinkedList<String> hrs = getCombo(i, 11);
-        	LinkedList<String> mins = getCombo(num-i, 59);
-        	
-        	if(hrs == null || mins == null) return null;
-        	
-        	Iterator<String> hr_it = hrs.iterator();
-        	while(hr_it.hasNext())
-        	{
-        		String hr = hr_it.next();
-        		Iterator<String> min_it = mins.iterator();
-        		while(min_it.hasNext())
-        			times.add(String.format("%s:%s", hr, min_it.next()));
-        	}	
+            LinkedList<String> hrs = getCombo(i, 11);
+            LinkedList<String> mins = getCombo(num-i, 59);
+
+            if(hrs == null || mins == null) return null;
+
+            Iterator<String> hr_it = hrs.iterator();
+            while(hr_it.hasNext())
+            {
+                    String hr = hr_it.next();
+                    Iterator<String> min_it = mins.iterator();
+                    while(min_it.hasNext())
+                            times.add(String.format("%s:%s", hr, min_it.next()));
+            }	
         }
         
         return times;
@@ -68,37 +101,37 @@ public class CodeSnippets
     public LinkedList<String> getCombo(int n, int max)
     {
     	if(n<0 || n>8) return null;
-    	LinkedList<String> combo = new LinkedList<String>();
+    	LinkedList<String> combo = new LinkedList<>();
     	if(n==0)
     	{
-    		combo = addSumToCombo(combo, max, 0);
+            combo = addSumToCombo(combo, max, 0);
     	}
     	else
     	{
-    		int[] nums = new int[n];
-        	
-        	int sum = 0;
-        	for(int i=0; i<n; i++)
-        	{
-        		nums[i] = (int)Math.pow(2, i);
-        		sum += nums[i];
-        	}
-        	combo = addSumToCombo(combo, max, sum);
-        		  		
-        	for(int i=n; i>0; i--)
-        	{     		
-        		while(sum <= max)
-        		{
-        			sum = 0;
-        			nums[i-1] *= 2;
-        			for(int j=0; j<n; j++)
-        				sum += nums[j];
-        			
-        			if(sum > max) break;
-        			
-        			combo = addSumToCombo(combo, max, sum);
-        		}
-        	}
+            int[] nums = new int[n];
+
+            int sum = 0;
+            for(int i=0; i<n; i++)
+            {
+                    nums[i] = (int)Math.pow(2, i);
+                    sum += nums[i];
+            }
+            combo = addSumToCombo(combo, max, sum);
+
+            for(int i=n; i>0; i--)
+            {     		
+                while(sum <= max)
+                {
+                        sum = 0;
+                        nums[i-1] *= 2;
+                        for(int j=0; j<n; j++)
+                                sum += nums[j];
+
+                        if(sum > max) break;
+
+                        combo = addSumToCombo(combo, max, sum);
+                }
+            }
     	}
     	  	
     	return combo;
@@ -106,16 +139,20 @@ public class CodeSnippets
     public LinkedList<String> addSumToCombo(LinkedList<String> combo, int max, int sum)
     {
     	if(max>12)
-			combo.add(String.format("%02d", 0));
-		else
-			combo.add(String.format("%d", 0));
+                combo.add(String.format("%02d", 0));
+            else
+                combo.add(String.format("%d", 0));
     	
     	return combo;
     }
+    
+    
+// 09/21/2016
 	
 	
-	//237. Delete Node in a Linked List
-	// shift node by 1
+    //237. Delete Node in a Linked List
+    // PASS
+    // shift node by 1
     public void deleteNode(ListNode node) 
     {
         while(node.next != null)
@@ -1157,113 +1194,82 @@ public class CodeSnippets
     }
 
 
-	//283. Move Zeroes
-	public void moveZeroes(int[] nums) 
-	{
+    //283. Move Zeroes
+    public void moveZeroes(int[] nums) 
+    {
         if(nums == null) throw new IllegalArgumentException("Invalid Input");
         
-        if(nums.length >= 2)
-        {
-    		for(int i=nums.length-1; i>=0; i--)
-    		{
-    			if(nums[i] == 0)
-    			{
-    				for(int j=i; j<nums.length-1; j++)
-    				{
-    					int temp = nums[j];
-    					nums[j] = nums[j+1];
-    					nums[j+1] = temp;
-    				}
-    			}
-    		}
+        if(nums.length >= 2){
+            for(int i=nums.length-1; i>=0; i--){
+                if(nums[i] == 0){
+                    for(int j=i; j<nums.length-1; j++){
+                        int temp = nums[j];
+                        nums[j] = nums[j+1];
+                        nums[j+1] = temp;
+                    }
+                }
+            }
         }
     }
 				
 	
 // === 09/01/2016 ===
 	
-	
-	//344. Reverse String
-	public String reverseString(String s)
-	{
-		
-		if(s == null)
-			throw new IllegalArgumentException("Invalid Input");
-		
-		else if(s.length() == 1)
-			return s;
-		
-		else
-		{
-			StringBuilder sb = new StringBuilder();
-			for(int i=s.length() - 1; i>=0; i--)
-			{
-				sb.append(s.charAt(i));
-			}
-			return sb.toString();
-		}	
-	}
-	
-	
-	//292. Nim Game
-	public boolean canWinNim(int n) 
-	{
 
-        if(n <= 0)
-        	throw new IllegalArgumentException("Input not valid");
-        else if(n <= 3)
-        	return true;
-        else
-        {
-        	if(n%4 == 0)
-        		return false;
-        	else 
-        		return true;
+    //344. Reverse String
+    public String reverseString(String s) {
+        if(s == null) throw new IllegalArgumentException("Invalid Input");
+
+        else if(s.length() == 1) return s;
+
+        else{
+            StringBuilder sb = new StringBuilder();
+            for(int i=s.length() - 1; i>=0; i--)
+                    sb.append(s.charAt(i));
+            
+            return sb.toString();
         }	
     }
 	
 	
-	//371. Sum of Two Integers
-	public int getSum(int a, int b) 
-	{
-		while((a&b) != 0)
-		{
-			int a1 = (a&b) << 1;
-			b = a^b;
-			a = a1;
-		}
+    //292. Nim Game
+    public boolean canWinNim(int n){
+        if(n <= 0) throw new IllegalArgumentException("Input not valid");
+        if(n <= 3) return true;
+        return n%4 != 0;
+    }
+	
+	
+    //371. Sum of Two Integers
+    public int getSum(int a, int b){
+        while((a&b) != 0){
+                int a1 = (a&b) << 1;
+                b = a^b;
+                a = a1;
+        }
         return a|b;
     }
 	
 	
-	//136. Single Number
-	public int singleNumber(int[] nums) 
-	{
-        
-		int result = -1;
-		
-		if(nums.length == 0)
-			throw new IllegalArgumentException("Invalid Input");
-		
-		HashMap<Integer, Integer> hm = new HashMap<>();
-		for(int i =0; i<nums.length; i++)
-		{
-			if(hm.containsKey(nums[i]))
-				hm.put(nums[i], 1);
-			else
-				hm.put(nums[i], 0);
-		}
-		
-		if(hm.containsValue(0))
-		{
-			for(Map.Entry<Integer, Integer> e : hm.entrySet())
-			{
-				if(e.getValue() == 0)
-					result = e.getKey();
-			}
-		}
+    //136. Single Number
+    public int singleNumber(int[] nums){
+        int result = -1;
 
-		return result;
+        if(nums.length == 0) throw new IllegalArgumentException("Invalid Input");
+
+        HashMap<Integer, Integer> hm = new HashMap<>();
+        for(int i =0; i<nums.length; i++){
+                if(hm.containsKey(nums[i])) hm.put(nums[i], 1);
+                else hm.put(nums[i], 0);
+        }
+
+        if(hm.containsValue(0)) {
+            for(Map.Entry<Integer, Integer> e : hm.entrySet()){
+                if(e.getValue() == 0) result = e.getKey();
+            }
+        }
+
+        return result;
     }
 	
 }
