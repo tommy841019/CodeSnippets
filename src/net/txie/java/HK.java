@@ -5,14 +5,174 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.ArrayList;
+
 
 public class HK 
 {
-	public static void main(String[] args) 
-	{
+    public static void main(String[] args) 
+    {
         HK hr = new HK();
+
+        gridlandMetro();
+    }
         
-        hr.algorithmicCrush();
+        
+// 09/25/2016
+    
+    
+    // World CodeSprint 7 Gridland Metro
+    /**
+        4 4 3
+        2 2 3
+        3 1 4
+        4 4 4
+     */
+    public static void gridlandMetro()
+    {
+        Scanner in = new Scanner(System.in);
+        String paras = in.nextLine();
+        String[] para_arr = paras.split(" ");
+        
+        int row = Integer.parseInt(para_arr[0]);
+        int col = Integer.parseInt(para_arr[1]);
+        int tracks = Integer.parseInt(para_arr[2]);
+        int totalgrid = row * col;
+        
+        HashMap<Integer, Object[]> hm = new HashMap<>();
+        for(int i=0; i<tracks; i++)
+        {
+            String trackInfo = in.nextLine();
+            String[] trackInfo_arr = trackInfo.split(" ");
+            int trackRow = Integer.parseInt(trackInfo_arr[0]);
+            int trackColS = Integer.parseInt(trackInfo_arr[1])-1;
+            int trackColE = Integer.parseInt(trackInfo_arr[2])-1;
+
+            if(hm.containsKey(trackRow))
+            {
+                Object[] trackhm = hm.get(trackRow);
+                Boolean[] grid = (Boolean[])trackhm[1];
+                for(int j=trackColS; j<=trackColE; j++)
+                    grid[j] = true;
+                
+                int count = 0;
+                for(int j=0; j<grid.length; j++)
+                    if(grid[j]) count++;
+                
+                hm.put(trackRow, new Object[]{count, grid});
+            }
+            else
+            {
+                Object[] trackhm = new Object[2];
+                Boolean[] grid = new Boolean[col];
+                for(int j=trackColS; j<=trackColE; j++)
+                    grid[j] = true;
+                    
+                trackhm[0] = trackColE - trackColS + 1;
+                trackhm[1] = grid;
+                hm.put(trackRow, trackhm);
+            }
+        }
+        in.close();
+        
+        int total = 0;
+        Iterator<Integer> it = hm.keySet().iterator();
+        while(it.hasNext())
+        {
+            total += (Integer)(hm.get(it.next())[0]);
+        }
+        
+        System.out.println(totalgrid - total);
+    }
+        
+        
+    // World CodeSprint 7  Two Characters
+    public static int getMaxLength(String s)
+    {
+        if(s.length()<2) return 0;
+        
+        s = removeDoubleChars(s);
+     
+        HashSet<Character> hs = new HashSet<>();
+        for(int i=0; i<s.length(); i++)
+            hs.add(s.charAt(i));
+        
+        Character[] uniqueC = hs.toArray(new Character[0]);
+        int max = 0;                           
+        for(int i=0; i<uniqueC.length; i++)
+        {
+            String b = s;
+            for(int j=i+1; j<uniqueC.length; j++)
+            {
+                for(int k=0; k<uniqueC.length; k++)
+                    if(k!=i && k!=j) 
+                        b = b.replaceAll(uniqueC[k]+"", "");
+                
+                if(isStringValid(b))
+                    max = Math.max(max, b.length());
+            }
+        }
+        
+        return max;
+    }
+    public static String removeDoubleChars(String s)
+    {
+    // remove all double char from string
+        boolean hasDouble = false;
+
+        do{
+            boolean status = false;
+            for(int i=0; i<s.length()-1; i++)
+                if(s.charAt(i) == s.charAt(i+1))
+                {
+                    s = s.replaceAll(s.charAt(i)+"", "");  
+                    hasDouble = true;
+                    status = true;
+                    break;
+                } 
+            
+            if(!status) hasDouble = false;
+        } while(hasDouble);
+        
+        return s;
+    }
+    public static boolean isStringValid(String s)
+    {
+        boolean isOK = true;
+        for(int k=0; k<s.length()-1; k++)
+            if(s.charAt(k)==s.charAt(k+1)) 
+                {
+                    isOK=false;
+                    break;
+                }
+        
+        return isOK;
+    }
+    
+    
+// 09/24/2016
+        
+        
+    // World CodeSprint 7  Sock Merchant
+    public int getNumberOfPairs(int[] socks)
+    {
+        if(socks.length < 2) return 0;
+        
+        HashMap<Integer, Integer> sockCount = new HashMap<>();
+        for(int i=0; i<socks.length; i++)
+        {
+            if(sockCount.containsKey(socks[i]))
+                sockCount.put(socks[i], sockCount.get(socks[i])+1);
+            else
+                sockCount.put(socks[i],1);
+        }
+        
+        int numberOfPairs = 0;
+        Iterator<Integer> it = sockCount.values().iterator();
+        while(it.hasNext())
+            numberOfPairs += it.next()/2;
+        
+        return numberOfPairs;
     }
 	
 	
