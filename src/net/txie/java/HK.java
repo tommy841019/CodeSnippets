@@ -78,9 +78,7 @@ public class HK
         int total = 0;
         Iterator<Integer> it = hm.keySet().iterator();
         while(it.hasNext())
-        {
             total += (Integer)(hm.get(it.next())[0]);
-        }
         
         System.out.println(totalgrid - total);
     }
