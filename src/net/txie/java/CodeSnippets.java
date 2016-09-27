@@ -21,44 +21,30 @@ public class CodeSnippets
         System.out.println(String.format("Time: %dms", System.currentTimeMillis() - start));
 
     }
+    
+    
+// === 09/27/2016 ===
+    
+    
+    //M 15. 3Sum
+    //o(N^2)
+    public List<List<Integer>> threeSum(int[] nums) 
+    {
+
+    }	
 	
 	
-// === 09/26/2016 ===
-    
-    
-    //H 287. Find the Duplicate Number
-    
-    
-    //E 405. Convert a Number to Hexadecimal
-    // PASS
-    // think in binary
-    // -1 -> 1111 1111 1111 1111 1111 1111 1111 1111
-    // to get last digit: number & 0b1111 or 15 or 0xf)
-    // StringBuilder has a reverse() function to output string in reverse order
-    public String toHex(int num) {
-        if(num ==0) return "0";
+    //E 13. Roman to Integer
+    public int romanToInt(String s) 
+    {
         
-        StringBuilder sb = new StringBuilder();
+    }	
+	
+	
+    //M 12. Integer to Roman
+    public String intToRoman(int num) 
+    {
         
-        while(num != 0){
-            int digit = num & 0xf;
-            sb.append(digit < 10 ? (char)(digit+'0') : (char)('a'+digit-10));
-            num = num>>>4;
-        }
-        
-        return sb.reverse().toString();
-    }
-    
-    
-    //E 404. Sum of Left Leaves
-    // PASS
-    // It only includes LEAVES!!!
-    public int sumOfLeftLeaves(TreeNode root) {
-        if(root == null) return 0;
-        return (root.left != null && isALeaf(root.left) ? root.left.val : 0) + sumOfLeftLeaves(root.left) + sumOfLeftLeaves(root.right);
-    }
-    public boolean isALeaf(TreeNode node) {
-        return node.left == null && node.right == null;
     }
         
 	
@@ -145,6 +131,43 @@ public class CodeSnippets
     	
     	return combo;
     }
+	
+	
+// === 09/26/2016 ===
+
+        
+    //E 405. Convert a Number to Hexadecimal
+    // PASS
+    // think in binary
+    // -1 -> 1111 1111 1111 1111 1111 1111 1111 1111
+    // to get last digit: number & 0b1111 or 15 or 0xf)
+    // StringBuilder has a reverse() function to output string in reverse order
+    public String toHex(int num) {
+        if(num ==0) return "0";
+        
+        StringBuilder sb = new StringBuilder();
+        
+        while(num != 0){
+            int digit = num & 0xf;
+            sb.append(digit < 10 ? (char)(digit+'0') : (char)('a'+digit-10));
+            num = num>>>4;
+        }
+        
+        return sb.reverse().toString();
+    }
+    
+    
+    //E 404. Sum of Left Leaves
+    // PASS
+    // It only includes LEAVES!!!
+    public int sumOfLeftLeaves(TreeNode root) {
+        if(root == null) return 0;
+        return (root.left != null && isALeaf(root.left) ? root.left.val : 0) + sumOfLeftLeaves(root.left) + sumOfLeftLeaves(root.right);
+    }
+    public boolean isALeaf(TreeNode node) {
+        return node.left == null && node.right == null;
+    }
+
     
     
 // 09/21/2016
@@ -166,8 +189,8 @@ public class CodeSnippets
     }
 	
 	
-	//226. Invert Binary Tree
-	// Recursively invert each node
+    //226. Invert Binary Tree
+    // Recursively invert each node
     public TreeNode invertTree(TreeNode root) 
     {
     	if(root == null) return root;
@@ -184,112 +207,112 @@ public class CodeSnippets
 // === 09/15/2016 ===
 	
 	
-	//146. LRU Cache
-	public class LRUCache
-	{
-		private HashMap<Integer, CacheNode> cache = new HashMap<Integer, CacheNode>();
-		private int capacity;
-		private CacheNode head;
-		private CacheNode tail;
-		
-		public LRUCache(int capacity)
-		{
-			this.capacity = capacity;
-		}
-		public int get(int key)
-		{
-			if(cache.containsKey(key)) 
-			{
-				CacheNode node = cache.get(key);
-				moveToHead(node);				
-				return node.val;
-			}		
-			else return -1;   // assume all values are >=0
-		}
-		public void set(int key, int val)
-		{	
-			if(cache.containsKey(key))
-			{
-				CacheNode node = cache.get(key);	
-				moveToHead(node);							
-				node.val = val;
-			}
-			else
-			{
-				CacheNode newNode = new CacheNode(key, val);
-				if(cache.size() == capacity) 
-				{
-					cache.remove(tail.key);
-					removeLast();					
-				}
-				
-				addToHead(newNode);				
-				cache.put(key, newNode);
-			}
-		}
-		public void removeLast()
-		{
-			if(tail.pre == null) head = tail = null; // capacity == 1
-			else
-			{
-				tail = tail.pre;
-				tail.next = null;	
-			}				
-		}
-		public void moveToHead(CacheNode node)
-		{
-			if(node.pre == null) return;
-			if(node.next == null) // tail
-			{
-				tail = node.pre;
-				tail.next = null;
-				node.next = head;
-				head.pre = node;
-				head = node;
-				head.pre = null;
-			}
-			else
-			{
-				node.pre.next = node.next;
-				node.next.pre = node.pre;
-				head.pre = node;
-				node.next = head;
-				head = node;
-				head.pre = null;
-			}
-		}
-		public void addToHead(CacheNode newNode)
-		{
-			if(head == null) head = tail = newNode;
-			else
-			{
-				head.pre = newNode;
-				newNode.next = head;
-				head = newNode;
-			}
-		}
-		public class CacheNode  // inner class
-		{
-			public int key;
-			public int val;
-			public CacheNode pre;
-			public CacheNode next;
-			
-			public CacheNode(int key, int val)
-			{
-				this.key = key;
-				this.val = val;
-			}
-		}
-	}
+    //146. LRU Cache
+    public class LRUCache
+    {
+        private HashMap<Integer, CacheNode> cache = new HashMap<Integer, CacheNode>();
+        private int capacity;
+        private CacheNode head;
+        private CacheNode tail;
+
+        public LRUCache(int capacity)
+        {
+                this.capacity = capacity;
+        }
+        public int get(int key)
+        {
+                if(cache.containsKey(key)) 
+                {
+                        CacheNode node = cache.get(key);
+                        moveToHead(node);				
+                        return node.val;
+                }		
+                else return -1;   // assume all values are >=0
+        }
+        public void set(int key, int val)
+        {	
+                if(cache.containsKey(key))
+                {
+                        CacheNode node = cache.get(key);	
+                        moveToHead(node);							
+                        node.val = val;
+                }
+                else
+                {
+                        CacheNode newNode = new CacheNode(key, val);
+                        if(cache.size() == capacity) 
+                        {
+                                cache.remove(tail.key);
+                                removeLast();					
+                        }
+
+                        addToHead(newNode);				
+                        cache.put(key, newNode);
+                }
+        }
+        public void removeLast()
+        {
+                if(tail.pre == null) head = tail = null; // capacity == 1
+                else
+                {
+                        tail = tail.pre;
+                        tail.next = null;	
+                }				
+        }
+        public void moveToHead(CacheNode node)
+        {
+                if(node.pre == null) return;
+                if(node.next == null) // tail
+                {
+                        tail = node.pre;
+                        tail.next = null;
+                        node.next = head;
+                        head.pre = node;
+                        head = node;
+                        head.pre = null;
+                }
+                else
+                {
+                        node.pre.next = node.next;
+                        node.next.pre = node.pre;
+                        head.pre = node;
+                        node.next = head;
+                        head = node;
+                        head.pre = null;
+                }
+        }
+        public void addToHead(CacheNode newNode)
+        {
+                if(head == null) head = tail = newNode;
+                else
+                {
+                        head.pre = newNode;
+                        newNode.next = head;
+                        head = newNode;
+                }
+        }
+        public class CacheNode  // inner class
+        {
+                public int key;
+                public int val;
+                public CacheNode pre;
+                public CacheNode next;
+
+                public CacheNode(int key, int val)
+                {
+                        this.key = key;
+                        this.val = val;
+                }
+        }
+    }
 	
 	
 // === 09/14/2016 ===
 	
 	
-	//41. First Missing Positive
-	// 1st num not 1
-	// duplicate
+    //41. First Missing Positive
+    // 1st num not 1
+    // duplicate
     public int firstMissingPositive(int[] nums) 
     {
     	if(nums == null) return -1;
@@ -473,28 +496,6 @@ public class CodeSnippets
         
         return sk.empty() ? true : false;
     }
-	
-	
-/*	//15. 3Sum
-	// o(N^2)
-    public List<List<Integer>> threeSum(int[] nums) 
-    {
-
-    }	
-	
-	
-	//13. Roman to Integer
-    public int romanToInt(String s) 
-    {
-        
-    }	
-	
-	
-	//12. Integer to Roman
-    public String intToRoman(int num) 
-    {
-        
-    }	*/
 	
 	
 	//2. Add Two Numbers
