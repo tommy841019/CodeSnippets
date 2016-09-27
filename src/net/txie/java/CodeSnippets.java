@@ -26,41 +26,77 @@ public class CodeSnippets
 // === 09/27/2016 ===
     
     
-    //M 15. 3Sum
-    //o(N^2)
+    // M 15. 3Sum
+    // o(N^2)
+    // OJ:
     public List<List<Integer>> threeSum(int[] nums) 
     {
 
     }	
 	
 	
-    //E 13. Roman to Integer
+    // E 13. Roman to Integer
+    // OJ:
     public int romanToInt(String s) 
     {
         
     }	
 	
 	
-    //M 12. Integer to Roman
+    // M 12. Integer to Roman
+    // OJ:
     public String intToRoman(int num) 
     {
         
     }
         
 	
-    //M 200. Number of Islands
-    //
+    // M 200. Number of Islands
+    // OJ:
+    private char[][] grid;
+    private int rowNum;
+    private int colNum;
     public int numIslands(char[][] grid) {
-        if(grid == null) return -1;
-        int rowNum = grid.length;
-        int colNum = grid[0].length;
+        if(grid == null || grid.length == 0 || grid[0].length == 0) return 0;
         
-        return -1;
+        this.grid = grid;
+        this.rowNum = grid.length;
+        this.colNum = grid[0].length;
+        int count = 0;
+        
+        for(int y=0; y<rowNum; y++)
+            for(int x=0; x<colNum; x++){
+                if(grid[y][x] == '1'){
+                    setNeighborsToZero(y, x);
+                    count++;
+                }
+            }
+        
+        return count;
+    }
+    public void setNeighborsToZero(int y, int x){
+        LinkedList<int[]> queue = new LinkedList<>();
+        queue.addLast(new int[]{y,x});
+        while(!queue.isEmpty()){
+            int[] pos = queue.removeFirst();
+            y = pos[0];
+            x = pos[1];
+            grid[y][x] = '0';
+            if(isValidPos(y-1, x)) queue.addLast(new int[]{y-1, x});
+            if(isValidPos(y+1, x)) queue.addLast(new int[]{y+1, x});
+            if(isValidPos(y, x-1)) queue.addLast(new int[]{y, x-1});
+            if(isValidPos(y, x+1)) queue.addLast(new int[]{y, x+1});
+        }
+    }
+    public boolean isValidPos(int y, int x){
+        return (y>=0 && y<rowNum)
+                && (x>= 0 && x<colNum)
+                && (grid[y][x] == '1');
     }
 	
 	
-    //E 401. Binary Watch
-    //
+    // E 401. Binary Watch
+    // OJ:
     // separate to hrs and minutes, then combine
     public List<String> readBinaryWatch(int num) {
     	
@@ -136,8 +172,8 @@ public class CodeSnippets
 // === 09/26/2016 ===
 
         
-    //E 405. Convert a Number to Hexadecimal
-    // PASS
+    // E 405. Convert a Number to Hexadecimal
+    // OJ: PASS
     // think in binary
     // -1 -> 1111 1111 1111 1111 1111 1111 1111 1111
     // to get last digit: number & 0b1111 or 15 or 0xf)
@@ -157,8 +193,8 @@ public class CodeSnippets
     }
     
     
-    //E 404. Sum of Left Leaves
-    // PASS
+    // E 404. Sum of Left Leaves
+    // OJ: PASS
     // It only includes LEAVES!!!
     public int sumOfLeftLeaves(TreeNode root) {
         if(root == null) return 0;
@@ -173,8 +209,8 @@ public class CodeSnippets
 // 09/21/2016
 	
 	
-    //237. Delete Node in a Linked List
-    // PASS
+    // 237. Delete Node in a Linked List
+    // OJ:PASS
     // shift node by 1
     public void deleteNode(ListNode node) 
     {
