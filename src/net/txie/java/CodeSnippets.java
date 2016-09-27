@@ -15,8 +15,8 @@ public class CodeSnippets
     {
         CodeSnippets cs = new CodeSnippets();
         long start = System.currentTimeMillis();
-
-        System.out.println(cs.toHex(-1));
+        
+        System.out.println(Math.pow(2,32));
 
         System.out.println(String.format("Time: %dms", System.currentTimeMillis() - start));
 
@@ -26,12 +26,133 @@ public class CodeSnippets
 // === 09/27/2016 ===
     
     
+    // 263. Ugly Number
+    // OJ: 
+    public boolean isUgly(int num) {
+        if(num <= 0) return false;
+        if(num == 1) return true;
+        
+        
+    }   
+    
+    
+    // E 191. Number of 1 Bits
+    // OJ: PASS
+    // unsigned n, ignore sign
+    public int hammingWeight(int n) {
+        int count = 0;
+        while(n!=0){
+            if((n&1) == 1) count++;
+            n=n>>>1;
+        }
+        return count;
+    }
+    
+    
+    // E 83. Remove Duplicates from Sorted List
+    // OJ: PASS
+    // two pointer
+    // need pay attention to reaching end of the list
+    public ListNode deleteDuplicates(ListNode head) {
+        if(head == null) return null;
+        if(head.next == null) return head;
+        
+        ListNode curr = head;
+        ListNode next = head.next;
+        while(next != null){
+            if(next.val == curr.val){
+                next = next.next;
+                if(next == null)
+                    curr.next = null;
+            }
+            else{
+                curr.next = next;
+                curr = next;
+                next = next.next;
+            }
+        }
+        
+        return head;
+    }   
+    
+    
+    // E 202. Happy Number
+    // OJ: PASS
+    // if have sum before, end loop
+    public boolean isHappy(int n) {
+        if(n <= 0) return false;
+        if(n == 1) return true;
+        HashSet<Integer> hs = new HashSet<>();
+        
+        while(n != 1){
+            int sum = 0;
+            while(n != 0){
+                sum += (int)Math.pow(n%10, 2);
+                n /= 10;
+            }
+            n = sum;
+            if(hs.contains(n))
+                return false;
+            else
+                hs.add(n);
+        }
+        
+        return true;
+    }
+    
+    
+    // E 231. Power of Two
+    // OJ: PASS
+    // Negative values, n cannot be negative
+    // if n is pow of 2, then there should be only one 1 in binary
+    // if n is not zero after reaching that 1, return false
+    public boolean isPowerOfTwo(int n) {
+        if(n<0) return false;
+        boolean isPowerOfTwo = false;
+
+        while(n != 0){
+            if((n&1) == 1){
+                n = n>>>1;
+                if(n != 0)
+                    isPowerOfTwo = false;
+                else
+                    isPowerOfTwo = true;
+                break;
+            } 
+            n = n>>>1;
+        }
+        return isPowerOfTwo;
+    }
+    
+    
+    // E 206. Reverse Linked List
+    // OJ: PASS
+    // 3 pointer, pre/head/next
+    // return pre at the end. NOT head, it will be null when exits loop
+    public ListNode reverseList(ListNode head) {
+        if(head == null) return null;
+        if(head.next == null) return head;
+        
+        ListNode pre = head;
+        head = head.next;
+        pre.next = null;
+        while(head != null){
+            ListNode next = head.next;
+            head.next = pre;
+            pre = head;
+            head = next;
+        }
+        
+        return pre;
+    }
+    
+    
     // M 15. 3Sum
     // o(N^2)
     // OJ:
     public List<List<Integer>> threeSum(int[] nums) 
     {
-
+        return null;
     }	
 	
 	
@@ -39,7 +160,7 @@ public class CodeSnippets
     // OJ:
     public int romanToInt(String s) 
     {
-        
+        return 0;
     }	
 	
 	
@@ -47,12 +168,13 @@ public class CodeSnippets
     // OJ:
     public String intToRoman(int num) 
     {
-        
+        return "";
     }
         
 	
     // M 200. Number of Islands
-    // OJ:
+    // OJ: PASS
+    // Removed queue to pass time limit
     private char[][] grid;
     private int rowNum;
     private int colNum;
@@ -75,18 +197,11 @@ public class CodeSnippets
         return count;
     }
     public void setNeighborsToZero(int y, int x){
-        LinkedList<int[]> queue = new LinkedList<>();
-        queue.addLast(new int[]{y,x});
-        while(!queue.isEmpty()){
-            int[] pos = queue.removeFirst();
-            y = pos[0];
-            x = pos[1];
             grid[y][x] = '0';
-            if(isValidPos(y-1, x)) queue.addLast(new int[]{y-1, x});
-            if(isValidPos(y+1, x)) queue.addLast(new int[]{y+1, x});
-            if(isValidPos(y, x-1)) queue.addLast(new int[]{y, x-1});
-            if(isValidPos(y, x+1)) queue.addLast(new int[]{y, x+1});
-        }
+            if(isValidPos(y-1, x)) setNeighborsToZero(y-1, x);
+            if(isValidPos(y+1, x)) setNeighborsToZero(y+1, x);
+            if(isValidPos(y, x-1)) setNeighborsToZero(y, x-1);
+            if(isValidPos(y, x+1)) setNeighborsToZero(y, x+1);
     }
     public boolean isValidPos(int y, int x){
         return (y>=0 && y<rowNum)
