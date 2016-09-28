@@ -11,56 +11,226 @@ import java.util.List;
 
 public class CodeSnippets
 {
-	public static void main(String[] args)
-	{
-		CodeSnippets cs = new CodeSnippets();
-		long start = System.currentTimeMillis();
-
-		List<String> times = cs.readBinaryWatch(3);
-		
-		System.out.println(String.format("Time: %dms", System.currentTimeMillis() - start));
-		
-		Iterator<String> it = times.iterator();
-		while(it.hasNext())
-			System.out.print(String.format("%s ", it.next()));
-	}
-	
-	
-// === 09/23/2016 ===
-	
-	
-	//200. Number of Islands
-    public int numIslands(char[][] grid) 
+    public static void main(String[] args)
     {
-        if(grid == null) return -1;
-        int rowNum = grid.length;
-        int colNum = grid[0].length;
+        CodeSnippets cs = new CodeSnippets();
+        long start = System.currentTimeMillis();
         
-        return -1;
+        System.out.println(Math.pow(2,32));
+
+        System.out.println(String.format("Time: %dms", System.currentTimeMillis() - start));
+
+    }
+    
+    
+// === 09/27/2016 ===
+    
+    
+    // 263. Ugly Number
+    // OJ: 
+    public boolean isUgly(int num) {
+        if(num <= 0) return false;
+        if(num == 1) return true;
+        
+        
+    }   
+    
+    
+    // E 191. Number of 1 Bits
+    // OJ: PASS
+    // unsigned n, ignore sign
+    public int hammingWeight(int n) {
+        int count = 0;
+        while(n!=0){
+            if((n&1) == 1) count++;
+            n=n>>>1;
+        }
+        return count;
+    }
+    
+    
+    // E 83. Remove Duplicates from Sorted List
+    // OJ: PASS
+    // two pointer
+    // need pay attention to reaching end of the list
+    public ListNode deleteDuplicates(ListNode head) {
+        if(head == null) return null;
+        if(head.next == null) return head;
+        
+        ListNode curr = head;
+        ListNode next = head.next;
+        while(next != null){
+            if(next.val == curr.val){
+                next = next.next;
+                if(next == null)
+                    curr.next = null;
+            }
+            else{
+                curr.next = next;
+                curr = next;
+                next = next.next;
+            }
+        }
+        
+        return head;
+    }   
+    
+    
+    // E 202. Happy Number
+    // OJ: PASS
+    // if have sum before, end loop
+    public boolean isHappy(int n) {
+        if(n <= 0) return false;
+        if(n == 1) return true;
+        HashSet<Integer> hs = new HashSet<>();
+        
+        while(n != 1){
+            int sum = 0;
+            while(n != 0){
+                sum += (int)Math.pow(n%10, 2);
+                n /= 10;
+            }
+            n = sum;
+            if(hs.contains(n))
+                return false;
+            else
+                hs.add(n);
+        }
+        
+        return true;
+    }
+    
+    
+    // E 231. Power of Two
+    // OJ: PASS
+    // Negative values, n cannot be negative
+    // if n is pow of 2, then there should be only one 1 in binary
+    // if n is not zero after reaching that 1, return false
+    public boolean isPowerOfTwo(int n) {
+        if(n<0) return false;
+        boolean isPowerOfTwo = false;
+
+        while(n != 0){
+            if((n&1) == 1){
+                n = n>>>1;
+                if(n != 0)
+                    isPowerOfTwo = false;
+                else
+                    isPowerOfTwo = true;
+                break;
+            } 
+            n = n>>>1;
+        }
+        return isPowerOfTwo;
+    }
+    
+    
+    // E 206. Reverse Linked List
+    // OJ: PASS
+    // 3 pointer, pre/head/next
+    // return pre at the end. NOT head, it will be null when exits loop
+    public ListNode reverseList(ListNode head) {
+        if(head == null) return null;
+        if(head.next == null) return head;
+        
+        ListNode pre = head;
+        head = head.next;
+        pre.next = null;
+        while(head != null){
+            ListNode next = head.next;
+            head.next = pre;
+            pre = head;
+            head = next;
+        }
+        
+        return pre;
+    }
+    
+    
+    // M 15. 3Sum
+    // o(N^2)
+    // OJ:
+    public List<List<Integer>> threeSum(int[] nums) 
+    {
+        return null;
+    }	
+	
+	
+    // E 13. Roman to Integer
+    // OJ:
+    public int romanToInt(String s) 
+    {
+        return 0;
+    }	
+	
+	
+    // M 12. Integer to Roman
+    // OJ:
+    public String intToRoman(int num) 
+    {
+        return "";
+    }
+        
+	
+    // M 200. Number of Islands
+    // OJ: PASS
+    // Removed queue to pass time limit
+    private char[][] grid;
+    private int rowNum;
+    private int colNum;
+    public int numIslands(char[][] grid) {
+        if(grid == null || grid.length == 0 || grid[0].length == 0) return 0;
+        
+        this.grid = grid;
+        this.rowNum = grid.length;
+        this.colNum = grid[0].length;
+        int count = 0;
+        
+        for(int y=0; y<rowNum; y++)
+            for(int x=0; x<colNum; x++){
+                if(grid[y][x] == '1'){
+                    setNeighborsToZero(y, x);
+                    count++;
+                }
+            }
+        
+        return count;
+    }
+    public void setNeighborsToZero(int y, int x){
+            grid[y][x] = '0';
+            if(isValidPos(y-1, x)) setNeighborsToZero(y-1, x);
+            if(isValidPos(y+1, x)) setNeighborsToZero(y+1, x);
+            if(isValidPos(y, x-1)) setNeighborsToZero(y, x-1);
+            if(isValidPos(y, x+1)) setNeighborsToZero(y, x+1);
+    }
+    public boolean isValidPos(int y, int x){
+        return (y>=0 && y<rowNum)
+                && (x>= 0 && x<colNum)
+                && (grid[y][x] == '1');
     }
 	
 	
-    //401. Binary Watch
+    // E 401. Binary Watch
+    // OJ:
     // separate to hrs and minutes, then combine
-    public List<String> readBinaryWatch(int num) 
-    {
+    public List<String> readBinaryWatch(int num) {
     	
-    	LinkedList<String> times = new LinkedList<String>();
+    	LinkedList<String> times = new LinkedList<>();
         for(int i=0;i<=num;i++)
         {
-        	LinkedList<String> hrs = getCombo(i, 11);
-        	LinkedList<String> mins = getCombo(num-i, 59);
-        	
-        	if(hrs == null || mins == null) return null;
-        	
-        	Iterator<String> hr_it = hrs.iterator();
-        	while(hr_it.hasNext())
-        	{
-        		String hr = hr_it.next();
-        		Iterator<String> min_it = mins.iterator();
-        		while(min_it.hasNext())
-        			times.add(String.format("%s:%s", hr, min_it.next()));
-        	}	
+            LinkedList<String> hrs = getCombo(i, 11);
+            LinkedList<String> mins = getCombo(num-i, 59);
+
+            if(hrs == null || mins == null) return null;
+
+            Iterator<String> hr_it = hrs.iterator();
+            while(hr_it.hasNext())
+            {
+                    String hr = hr_it.next();
+                    Iterator<String> min_it = mins.iterator();
+                    while(min_it.hasNext())
+                            times.add(String.format("%s:%s", hr, min_it.next()));
+            }	
         }
         
         return times;
@@ -68,37 +238,37 @@ public class CodeSnippets
     public LinkedList<String> getCombo(int n, int max)
     {
     	if(n<0 || n>8) return null;
-    	LinkedList<String> combo = new LinkedList<String>();
+    	LinkedList<String> combo = new LinkedList<>();
     	if(n==0)
     	{
-    		combo = addSumToCombo(combo, max, 0);
+            combo = addSumToCombo(combo, max, 0);
     	}
     	else
     	{
-    		int[] nums = new int[n];
-        	
-        	int sum = 0;
-        	for(int i=0; i<n; i++)
-        	{
-        		nums[i] = (int)Math.pow(2, i);
-        		sum += nums[i];
-        	}
-        	combo = addSumToCombo(combo, max, sum);
-        		  		
-        	for(int i=n; i>0; i--)
-        	{     		
-        		while(sum <= max)
-        		{
-        			sum = 0;
-        			nums[i-1] *= 2;
-        			for(int j=0; j<n; j++)
-        				sum += nums[j];
-        			
-        			if(sum > max) break;
-        			
-        			combo = addSumToCombo(combo, max, sum);
-        		}
-        	}
+            int[] nums = new int[n];
+
+            int sum = 0;
+            for(int i=0; i<n; i++)
+            {
+                    nums[i] = (int)Math.pow(2, i);
+                    sum += nums[i];
+            }
+            combo = addSumToCombo(combo, max, sum);
+
+            for(int i=n; i>0; i--)
+            {     		
+                while(sum <= max)
+                {
+                        sum = 0;
+                        nums[i-1] *= 2;
+                        for(int j=0; j<n; j++)
+                                sum += nums[j];
+
+                        if(sum > max) break;
+
+                        combo = addSumToCombo(combo, max, sum);
+                }
+            }
     	}
     	  	
     	return combo;
@@ -106,16 +276,57 @@ public class CodeSnippets
     public LinkedList<String> addSumToCombo(LinkedList<String> combo, int max, int sum)
     {
     	if(max>12)
-			combo.add(String.format("%02d", 0));
-		else
-			combo.add(String.format("%d", 0));
+                combo.add(String.format("%02d", 0));
+            else
+                combo.add(String.format("%d", 0));
     	
     	return combo;
     }
 	
 	
-	//237. Delete Node in a Linked List
-	// shift node by 1
+// === 09/26/2016 ===
+
+        
+    // E 405. Convert a Number to Hexadecimal
+    // OJ: PASS
+    // think in binary
+    // -1 -> 1111 1111 1111 1111 1111 1111 1111 1111
+    // to get last digit: number & 0b1111 or 15 or 0xf)
+    // StringBuilder has a reverse() function to output string in reverse order
+    public String toHex(int num) {
+        if(num ==0) return "0";
+        
+        StringBuilder sb = new StringBuilder();
+        
+        while(num != 0){
+            int digit = num & 0xf;
+            sb.append(digit < 10 ? (char)(digit+'0') : (char)('a'+digit-10));
+            num = num>>>4;
+        }
+        
+        return sb.reverse().toString();
+    }
+    
+    
+    // E 404. Sum of Left Leaves
+    // OJ: PASS
+    // It only includes LEAVES!!!
+    public int sumOfLeftLeaves(TreeNode root) {
+        if(root == null) return 0;
+        return (root.left != null && isALeaf(root.left) ? root.left.val : 0) + sumOfLeftLeaves(root.left) + sumOfLeftLeaves(root.right);
+    }
+    public boolean isALeaf(TreeNode node) {
+        return node.left == null && node.right == null;
+    }
+
+    
+    
+// 09/21/2016
+	
+	
+    // 237. Delete Node in a Linked List
+    // OJ:PASS
+    // shift node by 1
     public void deleteNode(ListNode node) 
     {
         while(node.next != null)
@@ -129,8 +340,8 @@ public class CodeSnippets
     }
 	
 	
-	//226. Invert Binary Tree
-	// Recursively invert each node
+    //226. Invert Binary Tree
+    // Recursively invert each node
     public TreeNode invertTree(TreeNode root) 
     {
     	if(root == null) return root;
@@ -147,112 +358,112 @@ public class CodeSnippets
 // === 09/15/2016 ===
 	
 	
-	//146. LRU Cache
-	public class LRUCache
-	{
-		private HashMap<Integer, CacheNode> cache = new HashMap<Integer, CacheNode>();
-		private int capacity;
-		private CacheNode head;
-		private CacheNode tail;
-		
-		public LRUCache(int capacity)
-		{
-			this.capacity = capacity;
-		}
-		public int get(int key)
-		{
-			if(cache.containsKey(key)) 
-			{
-				CacheNode node = cache.get(key);
-				moveToHead(node);				
-				return node.val;
-			}		
-			else return -1;   // assume all values are >=0
-		}
-		public void set(int key, int val)
-		{	
-			if(cache.containsKey(key))
-			{
-				CacheNode node = cache.get(key);	
-				moveToHead(node);							
-				node.val = val;
-			}
-			else
-			{
-				CacheNode newNode = new CacheNode(key, val);
-				if(cache.size() == capacity) 
-				{
-					cache.remove(tail.key);
-					removeLast();					
-				}
-				
-				addToHead(newNode);				
-				cache.put(key, newNode);
-			}
-		}
-		public void removeLast()
-		{
-			if(tail.pre == null) head = tail = null; // capacity == 1
-			else
-			{
-				tail = tail.pre;
-				tail.next = null;	
-			}				
-		}
-		public void moveToHead(CacheNode node)
-		{
-			if(node.pre == null) return;
-			if(node.next == null) // tail
-			{
-				tail = node.pre;
-				tail.next = null;
-				node.next = head;
-				head.pre = node;
-				head = node;
-				head.pre = null;
-			}
-			else
-			{
-				node.pre.next = node.next;
-				node.next.pre = node.pre;
-				head.pre = node;
-				node.next = head;
-				head = node;
-				head.pre = null;
-			}
-		}
-		public void addToHead(CacheNode newNode)
-		{
-			if(head == null) head = tail = newNode;
-			else
-			{
-				head.pre = newNode;
-				newNode.next = head;
-				head = newNode;
-			}
-		}
-		public class CacheNode  // inner class
-		{
-			public int key;
-			public int val;
-			public CacheNode pre;
-			public CacheNode next;
-			
-			public CacheNode(int key, int val)
-			{
-				this.key = key;
-				this.val = val;
-			}
-		}
-	}
+    //146. LRU Cache
+    public class LRUCache
+    {
+        private HashMap<Integer, CacheNode> cache = new HashMap<Integer, CacheNode>();
+        private int capacity;
+        private CacheNode head;
+        private CacheNode tail;
+
+        public LRUCache(int capacity)
+        {
+                this.capacity = capacity;
+        }
+        public int get(int key)
+        {
+                if(cache.containsKey(key)) 
+                {
+                        CacheNode node = cache.get(key);
+                        moveToHead(node);				
+                        return node.val;
+                }		
+                else return -1;   // assume all values are >=0
+        }
+        public void set(int key, int val)
+        {	
+                if(cache.containsKey(key))
+                {
+                        CacheNode node = cache.get(key);	
+                        moveToHead(node);							
+                        node.val = val;
+                }
+                else
+                {
+                        CacheNode newNode = new CacheNode(key, val);
+                        if(cache.size() == capacity) 
+                        {
+                                cache.remove(tail.key);
+                                removeLast();					
+                        }
+
+                        addToHead(newNode);				
+                        cache.put(key, newNode);
+                }
+        }
+        public void removeLast()
+        {
+                if(tail.pre == null) head = tail = null; // capacity == 1
+                else
+                {
+                        tail = tail.pre;
+                        tail.next = null;	
+                }				
+        }
+        public void moveToHead(CacheNode node)
+        {
+                if(node.pre == null) return;
+                if(node.next == null) // tail
+                {
+                        tail = node.pre;
+                        tail.next = null;
+                        node.next = head;
+                        head.pre = node;
+                        head = node;
+                        head.pre = null;
+                }
+                else
+                {
+                        node.pre.next = node.next;
+                        node.next.pre = node.pre;
+                        head.pre = node;
+                        node.next = head;
+                        head = node;
+                        head.pre = null;
+                }
+        }
+        public void addToHead(CacheNode newNode)
+        {
+                if(head == null) head = tail = newNode;
+                else
+                {
+                        head.pre = newNode;
+                        newNode.next = head;
+                        head = newNode;
+                }
+        }
+        public class CacheNode  // inner class
+        {
+                public int key;
+                public int val;
+                public CacheNode pre;
+                public CacheNode next;
+
+                public CacheNode(int key, int val)
+                {
+                        this.key = key;
+                        this.val = val;
+                }
+        }
+    }
 	
 	
 // === 09/14/2016 ===
 	
 	
-	//41. First Missing Positive
-	// 1st num not 1
-	// duplicate
+    //41. First Missing Positive
+    // 1st num not 1
+    // duplicate
     public int firstMissingPositive(int[] nums) 
     {
     	if(nums == null) return -1;
@@ -436,28 +647,6 @@ public class CodeSnippets
         
         return sk.empty() ? true : false;
     }
-	
-	
-/*	//15. 3Sum
-	// o(N^2)
-    public List<List<Integer>> threeSum(int[] nums) 
-    {
-
-    }	
-	
-	
-	//13. Roman to Integer
-    public int romanToInt(String s) 
-    {
-        
-    }	
-	
-	
-	//12. Integer to Roman
-    public String intToRoman(int num) 
-    {
-        
-    }	*/
 	
 	
 	//2. Add Two Numbers
@@ -1157,113 +1346,82 @@ public class CodeSnippets
     }
 
 
-	//283. Move Zeroes
-	public void moveZeroes(int[] nums) 
-	{
+    //283. Move Zeroes
+    public void moveZeroes(int[] nums) 
+    {
         if(nums == null) throw new IllegalArgumentException("Invalid Input");
         
-        if(nums.length >= 2)
-        {
-    		for(int i=nums.length-1; i>=0; i--)
-    		{
-    			if(nums[i] == 0)
-    			{
-    				for(int j=i; j<nums.length-1; j++)
-    				{
-    					int temp = nums[j];
-    					nums[j] = nums[j+1];
-    					nums[j+1] = temp;
-    				}
-    			}
-    		}
+        if(nums.length >= 2){
+            for(int i=nums.length-1; i>=0; i--){
+                if(nums[i] == 0){
+                    for(int j=i; j<nums.length-1; j++){
+                        int temp = nums[j];
+                        nums[j] = nums[j+1];
+                        nums[j+1] = temp;
+                    }
+                }
+            }
         }
     }
 				
 	
 // === 09/01/2016 ===
 	
-	
-	//344. Reverse String
-	public String reverseString(String s)
-	{
-		
-		if(s == null)
-			throw new IllegalArgumentException("Invalid Input");
-		
-		else if(s.length() == 1)
-			return s;
-		
-		else
-		{
-			StringBuilder sb = new StringBuilder();
-			for(int i=s.length() - 1; i>=0; i--)
-			{
-				sb.append(s.charAt(i));
-			}
-			return sb.toString();
-		}	
-	}
-	
-	
-	//292. Nim Game
-	public boolean canWinNim(int n) 
-	{
 
-        if(n <= 0)
-        	throw new IllegalArgumentException("Input not valid");
-        else if(n <= 3)
-        	return true;
-        else
-        {
-        	if(n%4 == 0)
-        		return false;
-        	else 
-        		return true;
+    //344. Reverse String
+    public String reverseString(String s) {
+        if(s == null) throw new IllegalArgumentException("Invalid Input");
+
+        else if(s.length() == 1) return s;
+
+        else{
+            StringBuilder sb = new StringBuilder();
+            for(int i=s.length() - 1; i>=0; i--)
+                    sb.append(s.charAt(i));
+            
+            return sb.toString();
         }	
     }
 	
 	
-	//371. Sum of Two Integers
-	public int getSum(int a, int b) 
-	{
-		while((a&b) != 0)
-		{
-			int a1 = (a&b) << 1;
-			b = a^b;
-			a = a1;
-		}
+    //292. Nim Game
+    public boolean canWinNim(int n){
+        if(n <= 0) throw new IllegalArgumentException("Input not valid");
+        if(n <= 3) return true;
+        return n%4 != 0;
+    }
+	
+	
+    //371. Sum of Two Integers
+    public int getSum(int a, int b){
+        while((a&b) != 0){
+                int a1 = (a&b) << 1;
+                b = a^b;
+                a = a1;
+        }
         return a|b;
     }
 	
 	
-	//136. Single Number
-	public int singleNumber(int[] nums) 
-	{
-        
-		int result = -1;
-		
-		if(nums.length == 0)
-			throw new IllegalArgumentException("Invalid Input");
-		
-		HashMap<Integer, Integer> hm = new HashMap<>();
-		for(int i =0; i<nums.length; i++)
-		{
-			if(hm.containsKey(nums[i]))
-				hm.put(nums[i], 1);
-			else
-				hm.put(nums[i], 0);
-		}
-		
-		if(hm.containsValue(0))
-		{
-			for(Map.Entry<Integer, Integer> e : hm.entrySet())
-			{
-				if(e.getValue() == 0)
-					result = e.getKey();
-			}
-		}
+    //136. Single Number
+    public int singleNumber(int[] nums){
+        int result = -1;
 
-		return result;
+        if(nums.length == 0) throw new IllegalArgumentException("Invalid Input");
+
+        HashMap<Integer, Integer> hm = new HashMap<>();
+        for(int i =0; i<nums.length; i++){
+                if(hm.containsKey(nums[i])) hm.put(nums[i], 1);
+                else hm.put(nums[i], 0);
+        }
+
+        if(hm.containsValue(0)) {
+            for(Map.Entry<Integer, Integer> e : hm.entrySet()){
+                if(e.getValue() == 0) result = e.getKey();
+            }
+        }
+
+        return result;
     }
 	
 }

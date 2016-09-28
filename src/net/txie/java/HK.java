@@ -187,6 +187,8 @@ public class HK
 			dfsSearch(root, v1, path1);
 			dfsSearch(root, v2, path2);
 		}
+                
+                return new Node();
        
     }
 	static Node dfsSearch(Node root, int v, LinkedList<Node> path)
