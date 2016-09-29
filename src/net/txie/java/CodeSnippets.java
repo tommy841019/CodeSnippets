@@ -23,7 +23,7 @@ public class CodeSnippets
     }
     
     
-// === 09/27/2016 ===
+// === 09/28/2016 ===
     
     
     // 263. Ugly Number
@@ -33,7 +33,84 @@ public class CodeSnippets
         if(num == 1) return true;
         
         
-    }   
+    }  
+    
+    
+    // E 401. Binary Watch
+    // OJ:
+    // separate to hrs and minutes, then combine
+    public List<String> readBinaryWatch(int num) {
+    	
+    	LinkedList<String> times = new LinkedList<>();
+        for(int i=0;i<=num;i++)
+        {
+            LinkedList<String> hrs = getCombo(i, 11);
+            LinkedList<String> mins = getCombo(num-i, 59);
+
+            if(hrs == null || mins == null) return null;
+
+            Iterator<String> hr_it = hrs.iterator();
+            while(hr_it.hasNext())
+            {
+                    String hr = hr_it.next();
+                    Iterator<String> min_it = mins.iterator();
+                    while(min_it.hasNext())
+                            times.add(String.format("%s:%s", hr, min_it.next()));
+            }	
+        }
+        
+        return times;
+    }
+    public LinkedList<String> getCombo(int n, int max)
+    {
+    	if(n<0 || n>8) return null;
+    	LinkedList<String> combo = new LinkedList<>();
+    	if(n==0)
+    	{
+            combo = addSumToCombo(combo, max, 0);
+    	}
+    	else
+    	{
+            int[] nums = new int[n];
+
+            int sum = 0;
+            for(int i=0; i<n; i++)
+            {
+                    nums[i] = (int)Math.pow(2, i);
+                    sum += nums[i];
+            }
+            combo = addSumToCombo(combo, max, sum);
+
+            for(int i=n; i>0; i--)
+            {     		
+                while(sum <= max)
+                {
+                        sum = 0;
+                        nums[i-1] *= 2;
+                        for(int j=0; j<n; j++)
+                                sum += nums[j];
+
+                        if(sum > max) break;
+
+                        combo = addSumToCombo(combo, max, sum);
+                }
+            }
+    	}
+    	  	
+    	return combo;
+    }
+    public LinkedList<String> addSumToCombo(LinkedList<String> combo, int max, int sum)
+    {
+    	if(max>12)
+                combo.add(String.format("%02d", 0));
+            else
+                combo.add(String.format("%d", 0));
+    	
+    	return combo;
+    }
+	
+    
+// === 09/27/2016 ===
     
     
     // E 191. Number of 1 Bits
@@ -209,81 +286,7 @@ public class CodeSnippets
                 && (grid[y][x] == '1');
     }
 	
-	
-    // E 401. Binary Watch
-    // OJ:
-    // separate to hrs and minutes, then combine
-    public List<String> readBinaryWatch(int num) {
-    	
-    	LinkedList<String> times = new LinkedList<>();
-        for(int i=0;i<=num;i++)
-        {
-            LinkedList<String> hrs = getCombo(i, 11);
-            LinkedList<String> mins = getCombo(num-i, 59);
 
-            if(hrs == null || mins == null) return null;
-
-            Iterator<String> hr_it = hrs.iterator();
-            while(hr_it.hasNext())
-            {
-                    String hr = hr_it.next();
-                    Iterator<String> min_it = mins.iterator();
-                    while(min_it.hasNext())
-                            times.add(String.format("%s:%s", hr, min_it.next()));
-            }	
-        }
-        
-        return times;
-    }
-    public LinkedList<String> getCombo(int n, int max)
-    {
-    	if(n<0 || n>8) return null;
-    	LinkedList<String> combo = new LinkedList<>();
-    	if(n==0)
-    	{
-            combo = addSumToCombo(combo, max, 0);
-    	}
-    	else
-    	{
-            int[] nums = new int[n];
-
-            int sum = 0;
-            for(int i=0; i<n; i++)
-            {
-                    nums[i] = (int)Math.pow(2, i);
-                    sum += nums[i];
-            }
-            combo = addSumToCombo(combo, max, sum);
-
-            for(int i=n; i>0; i--)
-            {     		
-                while(sum <= max)
-                {
-                        sum = 0;
-                        nums[i-1] *= 2;
-                        for(int j=0; j<n; j++)
-                                sum += nums[j];
-
-                        if(sum > max) break;
-
-                        combo = addSumToCombo(combo, max, sum);
-                }
-            }
-    	}
-    	  	
-    	return combo;
-    }
-    public LinkedList<String> addSumToCombo(LinkedList<String> combo, int max, int sum)
-    {
-    	if(max>12)
-                combo.add(String.format("%02d", 0));
-            else
-                combo.add(String.format("%d", 0));
-    	
-    	return combo;
-    }
-	
-	
 // === 09/26/2016 ===
 
         

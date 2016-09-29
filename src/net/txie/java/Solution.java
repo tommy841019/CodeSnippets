@@ -6,15 +6,123 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.*;
 
 
-public class HK 
+public class Solution 
 {
+    public Solution(){}
+    
     public static void main(String[] args) 
     {
-        HK hr = new HK();
-
-        gridlandMetro();
+        Solution hr = new Solution();
+        System.out.println(Solution.isBalanced("[()][{}()][](){}([{}(())([[{}]])][])[]([][])(){}{{}{[](){}}}()[]({})[{}{{}([{}][])}]"));
+    }
+    
+    
+// === 09/28/2016 ===
+    
+    
+    // CTCI: M Stacks: Balanced Brackets
+    // SC: PASS
+    // need to test if stack is empty at the end, in case reach string end before pop all elements from stack
+    public static boolean isBalanced(String expression) {
+        if(expression.length()%2==1) return false;
+        Stack<Character> stack = new Stack<>();
+        for(int i=0;i<expression.length();i++){
+            Character c = expression.charAt(i);
+            if(c=='(' || c=='[' || c=='{'){
+                stack.push(c);
+                continue;
+            }
+            if(stack.empty()) return false;
+            Character t = stack.pop();
+            if((c==')' && t!='(') || (c==']' && t!='[') || (c=='}' && t!='{'))
+                return false;
+        }
+        return true&&stack.empty();
+    }
+    
+    
+    // CTCI: E Linked Lists: Detect a Cycle
+    // SC: PASS
+    boolean hasCycle(ListNode head) {
+        HashSet<ListNode> history = new HashSet<>();
+        while(head!=null){
+            if(history.contains(head)) return true;
+            history.add(head);
+            head = head.next;
+        }
+        return false;
+    }
+    
+    
+    // CTCI: E Hash Tables: Ransom Note
+    // SC: PASS
+    Map<String, Integer> magazineMap;
+    Map<String, Integer> noteMap;
+    public Solution(String magazine, String note) {
+        magazineMap = new HashMap<>();
+        for(String s : magazine.split(" "))
+            if(magazineMap.containsKey(s))
+                magazineMap.put(s, magazineMap.get(s)+1);
+            else
+                magazineMap.put(s, 1);
+        
+        noteMap = new HashMap<>();
+        for(String s : note.split(" "))
+            if(noteMap.containsKey(s))
+                noteMap.put(s, noteMap.get(s)+1);
+            else
+                noteMap.put(s, 1);
+    }
+    public boolean solve() {
+        Iterator<String> noteIt = noteMap.keySet().iterator();
+        while(noteIt.hasNext()){
+            String note = noteIt.next();
+            if(!magazineMap.containsKey(note)) return false;
+            if(magazineMap.get(note) < noteMap.get(note)) return false;
+        }
+        return true;
+    }
+    
+    
+    // CTCI: E Strings: Making Anagrams
+    // SC: PASS
+    public static int numberNeeded(String first, String second) {
+        char[] f = first.toCharArray();
+        char[] s = second.toCharArray();
+        Arrays.sort(f);
+        Arrays.sort(s);
+        int counter = 0;
+        for(int i=0,j=0; i<f.length || j<s.length; ){
+            if(i==f.length) {counter += s.length-j;break;}
+            else if(j==s.length) {counter += f.length-i;break;}
+            else if(f[i]==s[j]) {i++;j++;}
+            else if(f[i]<s[j]) {i++;counter++;}
+            else {j++;counter++;}
+        }
+        return counter;
+    }
+    
+    
+    // CTCI: E Arrays: Left Rotation
+    // SC: Pass
+    // When copy tmp back to a, the start point is n-k
+    public static int[] arrayLeftRotation(int[] a, int n, int k) {
+        k = k%n;
+        if(k==0) return a;
+        
+        int[] tmp = new int[k];
+        for(int i=0; i<k; i++)
+            tmp[i] = a[i];
+        for(int i=k,j=0; i<n; i++)
+            a[j++] = a[i];
+        for(int i=0; i<k; i++)
+            a[n-k+i] = tmp[i];
+        
+        return a;
     }
         
         
@@ -78,7 +186,9 @@ public class HK
         int total = 0;
         Iterator<Integer> it = hm.keySet().iterator();
         while(it.hasNext())
+        {
             total += (Integer)(hm.get(it.next())[0]);
+        }
         
         System.out.println(totalgrid - total);
     }
