@@ -17,7 +17,146 @@ public class Solution
     public static void main(String[] args) 
     {
         Solution hr = new Solution();
-        System.out.println(Solution.isBalanced("[()][{}()][](){}([{}(())([[{}]])][])[]([][])(){}{{}{[](){}}}()[]({})[{}{{}([{}][])}]"));
+        try{
+            System.out.println(String.format("%.0f", Solution.calculate("1*120**20")));
+        }
+        catch(Exception e){System.out.println("Syntax Error");}
+        try{
+            System.out.println(String.format("%.0f", Solution.calculate("3*22**3**2*15")));
+        }
+        catch(Exception e){System.out.println("Syntax Error");}
+
+    }
+    
+    
+// === 09/29/2016 ===
+    
+    
+    // Moody's Analytics University Hackathon
+    // H Distinctly Colored Nodes in a Tree
+    // SC:
+    public static void distinctlyColoredNodes(){
+        
+    }
+    
+    
+    // Moody's Analytics University Hackathon
+    // H Presidential Gala
+    // SC:
+    public static void presidentialGala(){
+        
+    }
+    
+    
+    // Moody's Analytics University Hackathon
+    // M Asterisk Expressions
+    // SC:
+    public static void asteriskExpressions(){
+        Scanner in = new Scanner(System.in);
+        int numOfExps = in.nextInt();
+        in.nextLine();
+        String[] exps = new String[numOfExps];
+        for(int i=0; i<numOfExps; i++)
+            exps[i] = in.nextLine();
+        
+        for(String exp : exps){
+            try{
+                System.out.println(String.format("%.0f", Solution.calculate(exp)));
+            }
+            catch(Exception e){
+                System.out.println("Syntax Error");
+            }
+        }
+    }
+    public static double calculate(String exp) throws Exception{
+        exp = exp.replaceAll("\\*\\*", "^");
+        ArrayList<String> list = new ArrayList<>();
+        for(int i=0; i<exp.length(); ){
+            String s = ""+exp.charAt(i++);
+            if(s.equals("*")||s.equals("^"))
+                list.add(s);
+            else{
+                while(i<exp.length() && exp.charAt(i)!='*' && exp.charAt(i)!='^')
+                    s += exp.charAt(i++);
+                list.add(s);
+            }
+        }
+        Stack<String> stack = new Stack<>();
+        for(int i=0; i<list.size();){
+            boolean con0 = (i%2==1);
+            boolean con1 = (!list.get(i).equals("*"));
+            boolean con2 = (!list.get(i).equals("^"));
+            if( con0 && ( con1 && con2 )) throw new Exception();
+            if(!list.get(i).equals("^")){
+                stack.push(list.get(i++));
+            }
+            else{
+                stack.push(Math.pow(Double.parseDouble(stack.pop()),Double.parseDouble(list.get(i+1)))+"");
+                i+=2;
+            }
+        }
+        double res = Double.parseDouble(stack.pop());
+        while(!stack.isEmpty()){
+            stack.pop();
+            res *= Double.parseDouble(stack.pop());
+        }
+        return res%(Math.pow(10, 9)+7);
+    }
+    
+    
+    // Moody's Analytics University Hackathon
+    // M Small Risk Trading
+    // SC: 
+    public static void smallRiskTrading(){
+        Scanner in = new Scanner(System.in);
+        String[] nums = in.nextLine().split(" ");
+        int numOfT = Integer.parseInt(nums[0]);
+        int maxNumOfT = Integer.parseInt(nums[1]);
+        
+        String[] ps = in.nextLine().split(" ");
+        float[] p = Solution.toFloatArray(ps);
+        
+        String[] xs = in.nextLine().split(" ");
+        float[] x = Solution.toFloatArray(xs);
+        
+        String[] ys = in.nextLine().split(" ");
+        float[] y = Solution.toFloatArray(ys);
+        
+        for(int i=0; i<numOfT; i++)
+            p[i] = p[i]*x[i] - (1-p[i])*y[i];
+        
+        Arrays.sort(p);
+        float max = 0;
+        for(int i=0; i<maxNumOfT; i++)
+            if(p[numOfT-i-1]>0) max += p[numOfT-i-1];
+        System.out.println(String.format("%.2f", max));
+    }
+    public static float[] toFloatArray(String[] s){
+        float[] f = new float[s.length];
+        for(int i=0; i<s.length; i++)
+            f[i] = Float.parseFloat(s[i]);
+        return f;
+    }
+    
+    
+    // Moody's Analytics University Hackathon
+    // E Learning From the Past
+    // SC: PASS
+    public static void learnFromPast(){
+        Scanner in = new Scanner(System.in);
+        int numOfDays = in.nextInt();
+        in.nextLine();
+        int max = 0;
+        for(int i=1; i<=numOfDays; i++){
+            String[] ps = in.nextLine().split(" ");
+            int mp = Solution.maxProfit(new int[]{Integer.parseInt(ps[0]), Integer.parseInt(ps[1]), Integer.parseInt(ps[2])});
+            max = Math.max(max, mp);
+        }
+        System.out.println(max);
+    }
+    public static int maxProfit(int[] p){
+        Arrays.sort(p);
+        return p[2]+p[1];
     }
     
     
@@ -90,6 +229,7 @@ public class Solution
     
     // CTCI: E Strings: Making Anagrams
     // SC: PASS
+    // String to array, sort, 2 pointer
     public static int numberNeeded(String first, String second) {
         char[] f = first.toCharArray();
         char[] s = second.toCharArray();
