@@ -17,15 +17,17 @@ public class Solution
     public static void main(String[] args) 
     {
         Solution hr = new Solution();
-        try{
-            System.out.println(String.format("%.0f", Solution.calculate("1*120**20")));
-        }
-        catch(Exception e){System.out.println("Syntax Error");}
-        try{
-            System.out.println(String.format("%.0f", Solution.calculate("3*22**3**2*15")));
-        }
-        catch(Exception e){System.out.println("Syntax Error");}
-
+        double d = 54327115000000.0;
+        
+        Solution.solve("1*120**20");
+        Solution.solve("-3*-2**3**2*-15");
+        Solution.solve("*3*22**3**2*15");
+        Solution.solve("3*22**3**2***15");
+        Solution.solve("3*22**3**2*15*");
+        Solution.solve("***************");
+        Solution.solve("1*2*3*4*5");
+        Solution.solve("2**2**3**4**53*22**");
+        Solution.solve("1");
     }
     
     
@@ -60,47 +62,38 @@ public class Solution
             exps[i] = in.nextLine();
         
         for(String exp : exps){
-            try{
-                System.out.println(String.format("%.0f", Solution.calculate(exp)));
-            }
-            catch(Exception e){
-                System.out.println("Syntax Error");
-            }
+            Solution.solve(exp);
         }
     }
-    public static double calculate(String exp) throws Exception{
-        exp = exp.replaceAll("\\*\\*", "^");
-        ArrayList<String> list = new ArrayList<>();
-        for(int i=0; i<exp.length(); ){
-            String s = ""+exp.charAt(i++);
-            if(s.equals("*")||s.equals("^"))
-                list.add(s);
-            else{
-                while(i<exp.length() && exp.charAt(i)!='*' && exp.charAt(i)!='^')
-                    s += exp.charAt(i++);
-                list.add(s);
-            }
-        }
-        Stack<String> stack = new Stack<>();
-        for(int i=0; i<list.size();){
-            boolean con0 = (i%2==1);
-            boolean con1 = (!list.get(i).equals("*"));
-            boolean con2 = (!list.get(i).equals("^"));
-            if( con0 && ( con1 && con2 )) throw new Exception();
-            if(!list.get(i).equals("^")){
-                stack.push(list.get(i++));
-            }
-            else{
-                stack.push(Math.pow(Double.parseDouble(stack.pop()),Double.parseDouble(list.get(i+1)))+"");
-                i+=2;
-            }
-        }
-        double res = Double.parseDouble(stack.pop());
-        while(!stack.isEmpty()){
-            stack.pop();
-            res *= Double.parseDouble(stack.pop());
-        }
+    public static void solve(String exp){
+        if(Solution.isValid(exp))
+            System.out.println(String.format("%.0f", Solution.calculate(exp)));
+        else
+            System.out.println("Syntax Error");
+    }
+    public static boolean isValid(String exp){
+        exp = exp.replaceAll("\\*\\*", "*");
+        if(exp.charAt(0)=='*'||exp.charAt(exp.length()-1)=='*') return false;
+        
+        String[] ops = exp.split("\\*");
+        if(ops.length==0) return false;
+        for(String op : ops)
+            if(op.isEmpty()) return false;
+        return true;
+    }
+    public static double calculate(String exp){
+        String[] ops = exp.replaceAll("\\*\\*", "^").split("\\*");
+        double res = 1;
+        for(String op : ops)
+            res *= (op.contains("^") ? Solution.pow(op) : Double.parseDouble(op));
         return res%(Math.pow(10, 9)+7);
+    }
+    public static double pow(String exp){
+        String[] ops = exp.split("\\^");
+        double res = Double.parseDouble(ops[0]);
+        for(int i=1; i<ops.length; i++)
+            res = Math.pow(res, Double.parseDouble(ops[i]));
+        return res;
     }
     
     
@@ -114,27 +107,27 @@ public class Solution
         int maxNumOfT = Integer.parseInt(nums[1]);
         
         String[] ps = in.nextLine().split(" ");
-        float[] p = Solution.toFloatArray(ps);
+        double[] p = Solution.toDoubleArray(ps);
         
         String[] xs = in.nextLine().split(" ");
-        float[] x = Solution.toFloatArray(xs);
+        double[] x = Solution.toDoubleArray(xs);
         
         String[] ys = in.nextLine().split(" ");
-        float[] y = Solution.toFloatArray(ys);
+        double[] y = Solution.toDoubleArray(ys);
         
         for(int i=0; i<numOfT; i++)
-            p[i] = p[i]*x[i] - (1-p[i])*y[i];
+            p[i] = Math.round(100*(p[i]*x[i] - (1-p[i])*y[i]))/100;
         
         Arrays.sort(p);
         float max = 0;
         for(int i=0; i<maxNumOfT; i++)
             if(p[numOfT-i-1]>0) max += p[numOfT-i-1];
-        System.out.println(String.format("%.2f", max));
+        System.out.println(max);
     }
-    public static float[] toFloatArray(String[] s){
-        float[] f = new float[s.length];
+    public static double[] toDoubleArray(String[] s){
+        double[] f = new double[s.length];
         for(int i=0; i<s.length; i++)
-            f[i] = Float.parseFloat(s[i]);
+            f[i] = Double.parseDouble(s[i]);
         return f;
     }
     
