@@ -22,8 +22,15 @@ public class CodeSnippets
 
     }
     
+  
+// === 09/30/2016 ===
     
-// === 09/29/2016 ===
+    
+    // E 70. Climbing Stairs
+    // OJ:
+    public int climbStairs(int n) {
+        
+    }
     
       
     // 263. Ugly Number
