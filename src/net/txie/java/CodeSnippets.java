@@ -16,12 +16,104 @@ public class CodeSnippets
         CodeSnippets cs = new CodeSnippets();
         long start = System.currentTimeMillis();
         
-        System.out.println(cs.isPowerOfThree(2147483647));
+        System.out.println(cs.readBinaryWatch(0));
 
         System.out.println(String.format("Time: %dms", System.currentTimeMillis() - start));
 
     }
     
+    
+// === 10/02/2016 ===
+    
+    
+    // E 121. Best Time to Buy and Sell Stock
+    // OJ: PASS
+    // Scan find min for each section
+    // Scan reverse to find max profit
+    public int maxProfit(int[] prices) {
+        if(prices.length == 0) return 0;
+        int max = 0;
+        int[] mins = new int[prices.length];
+        mins[0]=prices[0];
+        for(int i=1; i<prices.length; i++)
+            mins[i]=Math.min(mins[i-1],prices[i]);
+        for(int j=prices.length-1; j>=0; j--){
+            max = Math.max(max, prices[j]-mins[j]);
+        }
+        return max;
+    } 
+    
+    
+    // E 70. Climbing Stairs
+    // OJ: PASS
+    // DP memorization with array
+    public int climbStairs(int n) {
+        int[] steps = new int[n+1];
+        return climb(steps, n);
+    }
+    public int climb(int[] steps, int n) {
+        if(n==0) return 1;
+        if(n>0){
+            if(steps[n] != 0) return steps[n];
+            steps[n] = climb(steps,n-1)+climb(steps,n-2);
+            return steps[n];
+        }
+        return 0;
+    }
+    
+    
+    // E 70. Climbing Stairs
+    // OJ: PASS
+    // DP memorization with HashMap
+    HashMap<Integer, Integer> hm_climb = new HashMap<>();
+    public int climbStairs_hm(int n) {
+        if(n<0) return 0;
+        if(n==0) return 1;
+        int i;
+        if(hm_climb.containsKey(n-1)) i=hm_climb.get(n-1);
+        else{
+            i = climbStairs_hm(n-1);
+            hm_climb.put(n-1,i);
+        }
+        int j;
+        if(hm_climb.containsKey(n-2)) j=hm_climb.get(n-2);
+        else{
+            j = climbStairs_hm(n-2);
+            hm_climb.put(n-2,j);
+        }
+        return i + j;
+    }
+    
+    
+    // E 401. Binary Watch
+    // OJ:
+    // separate to hrs and minutes, then combine
+    public List<String> readBinaryWatch(int num) {
+        if(num<0 || num>8) return null;
+        LinkedList<String> times = new LinkedList<>();
+        for(int i=0; i<=Math.min(3,num); i++){
+            LinkedList<String> hrs = getHours(i);
+            LinkedList<String> mms = getHours(num-i);
+            Iterator<String> hrs_it = hrs.iterator();
+            while(hrs_it.hasNext()){
+                String hr = hrs_it.next();
+                Iterator<String> mms_it = mms.iterator();
+                while(mms_it.hasNext()){
+                    String mm = mms_it.next();
+                    times.add(String.format("%2s:%2s", hr, mm));
+                }
+            }
+        }
+        return times;
+    }
+    public LinkedList<String> getHours(int num){
+        LinkedList<String> hrs = new LinkedList<>();
+        
+    }
+    public LinkedList<String> getMinutes(int num){
+        LinkedList<String> mms = new LinkedList<>();
+    }
+	
   
 // === 10/02/2016 ===
     
@@ -74,27 +166,6 @@ public class CodeSnippets
     }    
     
     
-    // E 70. Climbing Stairs
-    // OJ:
-    public int climbStairs(int n) {
-        if(n==0) return 0;
-        if(n==1) return 1;
-        if(n==2) return 2;
-        int count = 0;
-        while(n>1){
-            if(n-2>=1){
-                count += 2;
-                n--;
-            }
-            else{
-                count++;
-                break;
-            }
-        }
-        return count;
-    }
-    
-      
     // 263. Ugly Number
     // OJ: PASS
     // keep dividing if possible
@@ -110,81 +181,7 @@ public class CodeSnippets
         if(num>1) return false;
         else return true;
     }  
-    
-    
-    // E 401. Binary Watch
-    // OJ:
-    // separate to hrs and minutes, then combine
-    public List<String> readBinaryWatch(int num) {
-    	
-    	LinkedList<String> times = new LinkedList<>();
-        for(int i=0;i<=num;i++)
-        {
-            LinkedList<String> hrs = getCombo(i, 11);
-            LinkedList<String> mins = getCombo(num-i, 59);
 
-            if(hrs == null || mins == null) return null;
-
-            Iterator<String> hr_it = hrs.iterator();
-            while(hr_it.hasNext())
-            {
-                    String hr = hr_it.next();
-                    Iterator<String> min_it = mins.iterator();
-                    while(min_it.hasNext())
-                            times.add(String.format("%s:%s", hr, min_it.next()));
-            }	
-        }
-        
-        return times;
-    }
-    public LinkedList<String> getCombo(int n, int max)
-    {
-    	if(n<0 || n>8) return null;
-    	LinkedList<String> combo = new LinkedList<>();
-    	if(n==0)
-    	{
-            combo = addSumToCombo(combo, max, 0);
-    	}
-    	else
-    	{
-            int[] nums = new int[n];
-
-            int sum = 0;
-            for(int i=0; i<n; i++)
-            {
-                    nums[i] = (int)Math.pow(2, i);
-                    sum += nums[i];
-            }
-            combo = addSumToCombo(combo, max, sum);
-
-            for(int i=n; i>0; i--)
-            {     		
-                while(sum <= max)
-                {
-                        sum = 0;
-                        nums[i-1] *= 2;
-                        for(int j=0; j<n; j++)
-                                sum += nums[j];
-
-                        if(sum > max) break;
-
-                        combo = addSumToCombo(combo, max, sum);
-                }
-            }
-    	}
-    	  	
-    	return combo;
-    }
-    public LinkedList<String> addSumToCombo(LinkedList<String> combo, int max, int sum)
-    {
-    	if(max>12)
-                combo.add(String.format("%02d", 0));
-            else
-                combo.add(String.format("%d", 0));
-    	
-    	return combo;
-    }
-	
     
 // === 09/27/2016 ===
     
@@ -440,8 +437,8 @@ public class CodeSnippets
     //146. LRU Cache
     public class LRUCache
     {
-        private HashMap<Integer, CacheNode> cache = new HashMap<Integer, CacheNode>();
-        private int capacity;
+        private final HashMap<Integer, CacheNode> cache = new HashMap<>();
+        private final int capacity;
         private CacheNode head;
         private CacheNode tail;
 
