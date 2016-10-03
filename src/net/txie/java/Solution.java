@@ -31,6 +31,18 @@ public class Solution
     }
     
     
+// === 10/01/2016 ===
+    
+    
+    // 30 Days of Code 
+    // Day 21: Generics
+    // generic method signature mush include <T> before return type
+    public static <T> void printArray(T[] arr){
+        for(T t : arr)
+            System.out.println(t);
+    }
+    
+    
 // === 09/29/2016 ===
     
     

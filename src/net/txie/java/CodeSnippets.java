@@ -16,30 +16,99 @@ public class CodeSnippets
         CodeSnippets cs = new CodeSnippets();
         long start = System.currentTimeMillis();
         
-        System.out.println(Math.pow(2,32));
+        System.out.println(cs.isPowerOfThree(2147483647));
 
         System.out.println(String.format("Time: %dms", System.currentTimeMillis() - start));
 
     }
     
   
-// === 09/30/2016 ===
+// === 10/02/2016 ===
+    
+    
+    // E 326. Power of Three
+    // OJ: PASS
+    public boolean isPowerOfThree(int n) {
+        while(n!=0){
+            if(n==1) return true;
+            if(n%3!=0) return false;
+            n = n/3;
+        }
+        return false;
+    }    
+    
+    
+    // E 409. Longest Palindrome
+    // OJ: PASS
+    // Put c and count in hashmap
+    // loop through values, if divided by 2, add count
+    // not divided by 2, add 1st occurrence else add count-1
+    public int longestPalindrome(String s) {
+        if(s.length()==0) return 0;
+        if(s.length()==1) return 1;
+        HashMap<Character, Integer> hm = new HashMap<>();
+        for(int i=0; i<s.length(); i++){
+            Character c = s.charAt(i);
+            if(hm.containsKey(c))
+                hm.put(c, hm.get(c)+1);
+            else
+                hm.put(c, 1);
+        }
+        Iterator<Integer> it = hm.values().iterator();
+        int count=0;
+        boolean singleFlag = false;
+        while(it.hasNext()){
+            int i = it.next();
+            if(i%2==0) count+=i;
+            else{
+                if(!singleFlag) {
+                    count += i;
+                    singleFlag=true;
+                }
+                else{
+                    count += i-1;
+                }
+            }
+        }
+        return count;
+    }    
     
     
     // E 70. Climbing Stairs
     // OJ:
     public int climbStairs(int n) {
-        
+        if(n==0) return 0;
+        if(n==1) return 1;
+        if(n==2) return 2;
+        int count = 0;
+        while(n>1){
+            if(n-2>=1){
+                count += 2;
+                n--;
+            }
+            else{
+                count++;
+                break;
+            }
+        }
+        return count;
     }
     
       
     // 263. Ugly Number
-    // OJ: 
+    // OJ: PASS
+    // keep dividing if possible
     public boolean isUgly(int num) {
         if(num <= 0) return false;
         if(num == 1) return true;
-        
-        
+        while(num%2==0)
+            num = num/2;
+        while(num%3==0)
+            num = num/3;
+        while(num%5==0)
+            num = num/5;
+        if(num>1) return false;
+        else return true;
     }  
     
     
