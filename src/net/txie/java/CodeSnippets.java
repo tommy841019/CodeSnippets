@@ -16,7 +16,9 @@ public class CodeSnippets
         CodeSnippets cs = new CodeSnippets();
         long start = System.currentTimeMillis();
         
-        System.out.println(cs.readBinaryWatch(0));
+        List<String> list = cs.readBinaryWatch(2);
+        for(String s : list)
+            System.out.print(String.format("%s ",s));
 
         System.out.println(String.format("Time: %dms", System.currentTimeMillis() - start));
 
@@ -24,6 +26,56 @@ public class CodeSnippets
     
     
 // === 10/02/2016 ===
+    
+    
+    // E 21. Merge Two Sorted Lists
+    // OJ: 
+    public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
+        if(l1==null && l2==null) return null;
+        if(l1==null) return l2;
+        if(l2==null) return l1;
+        
+        ListNode curr;
+        while(l1!=null && l2!=null){
+            if(l1.val<l2.val){
+                curr.next = l1;
+                l1=l1.next;
+                curr=curr.next;
+            }
+            else if(l1.val>l2.val){
+                curr.next = l2;
+                l2=l2.next;
+                curr=curr.next;
+            }
+            else
+            {
+                curr.next = l1;
+                curr = curr.next;
+                curr.next = l2;
+                curr=curr.next;
+            }
+        }
+        if(l1!=null) curr.next = l1;
+        if(l2!=null) curr.next = l2;
+        return head.next;
+    }    
+    
+    
+    // E 235. Lowest Common Ancestor of a Binary Search Tree
+    // OJ: PASS
+    // number is a decendent of itself
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        if(root == null) return null;
+        if(p.val > q.val){
+            TreeNode tmp = p;
+            p = q;
+            q = tmp;
+        }
+        
+        if(p.val <= root.val && q.val >=root.val ) return root;
+        else if(p.val < q.val && q.val < root.val) return lowestCommonAncestor(root.left, p, q);
+        else return lowestCommonAncestor(root.right, p, q);
+    }
     
     
     // E 121. Best Time to Buy and Sell Stock
@@ -86,32 +138,18 @@ public class CodeSnippets
     
     
     // E 401. Binary Watch
-    // OJ:
-    // separate to hrs and minutes, then combine
+    // OJ: PASS
+    // Use Integer.bitCount method
     public List<String> readBinaryWatch(int num) {
-        if(num<0 || num>8) return null;
         LinkedList<String> times = new LinkedList<>();
-        for(int i=0; i<=Math.min(3,num); i++){
-            LinkedList<String> hrs = getHours(i);
-            LinkedList<String> mms = getHours(num-i);
-            Iterator<String> hrs_it = hrs.iterator();
-            while(hrs_it.hasNext()){
-                String hr = hrs_it.next();
-                Iterator<String> mms_it = mms.iterator();
-                while(mms_it.hasNext()){
-                    String mm = mms_it.next();
-                    times.add(String.format("%2s:%2s", hr, mm));
-                }
-            }
+        if(num<0 || num>8) return times;
+        for(int h=0; h<=11; h++){
+            for(int j=0; j<=59; j++){
+                if(Integer.bitCount(j)+Integer.bitCount(h)==num)
+                    times.add(String.format("%d:%02d",h,j));
+            }  
         }
         return times;
-    }
-    public LinkedList<String> getHours(int num){
-        LinkedList<String> hrs = new LinkedList<>();
-        
-    }
-    public LinkedList<String> getMinutes(int num){
-        LinkedList<String> mms = new LinkedList<>();
     }
 	
   
