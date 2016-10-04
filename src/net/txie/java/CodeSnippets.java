@@ -25,7 +25,118 @@ public class CodeSnippets
     }
     
     
-// === 10/02/2016 ===
+// === 10/04/2016 ===
+    
+    
+    // E 107. Binary Tree Level Order Traversal II
+    // OJ: 
+    public List<List<Integer>> levelOrderBottom(TreeNode root) {
+        return null;
+    }
+
+
+    // E 141. Linked List Cycle
+    // OJ: 
+    public boolean hasCycle(ListNode head) {
+        return false;
+    }
+    
+    
+    // E 198. House Robber
+    // OJ: 
+    public int rob(int[] nums) {
+        if(nums.length==0) return 0;
+        if(nums.length==1) return nums[0];
+        int sum=0;
+        for(int i=0; i<nums.length; i++){
+            if(nums[i]<nums[i+1]){
+                sum+=nums[i+1];
+                i = i+1+2;
+            }
+            else if(nums[i]>nums[i+1]){
+                sum+=nums[i];
+                i = i+2;
+            }
+            else
+                
+        }
+    }
+    
+    
+    // E 345. Reverse Vowels of a String
+    // OJ: PASS
+    // Two pointer
+    // return string from char array: new String(array)
+    // char to lower case: Character.toLowerCase(c)
+    public String reverseVowels(String s) {
+        char[] sarray = s.toCharArray();
+        int left = 0;
+        int right = s.length()-1;
+        while(left<right){
+            if(isVowel(sarray[left])&&isVowel(sarray[right])){
+                char tmp = sarray[left];
+                sarray[left] = sarray[right];
+                sarray[right] = tmp;
+                left++;
+                right--;
+            }
+            else if(isVowel(sarray[left])&&!isVowel(sarray[right]))
+                right--;
+            else left++;
+        }
+        return new String(sarray);
+    }
+    public boolean isVowel(char c){
+        c = Character.toLowerCase(c);
+        return (c=='a' || c=='e' || c=='i' || c=='o' || c=='u');
+    }
+    
+    
+    // E 24. Swap Nodes in Pairs
+    // OJ: PASS
+    // Inplace
+    // Need to remember head and pre position
+    public ListNode swapPairs_inplace(ListNode head) {
+        if(head==null) return null;
+        if(head.next==null) return head;
+        ListNode node = head;
+        ListNode pre = null;
+        head = head.next;
+        while(node!=null){
+            if(node.next==null) break;
+            ListNode tmp = node.next;
+            node.next = tmp.next;
+            tmp.next = node;
+            if(pre!=null) pre.next = tmp;
+            pre = node;
+            node = node.next;
+        }
+        return head;
+    }
+    // Recursion
+    // swap first two and return head recursively
+    public ListNode swapPairs(ListNode head) {
+        if (head == null || head.next == null) return head;
+
+        ListNode second = head.next;
+        head.next = second.next;
+        second.next = head;
+        head.next = swapPairs(head.next);
+        return second;
+    }
+    
+    
+    // E 342. Power of Four
+    // OJ: PASS
+    public boolean isPowerOfFour(int num) {
+        if(num<=0) return false;
+        if(num==1) return true;
+        while(num>1){
+            if(num%4!=0) return false;
+            num/=4;
+        }
+        return true;
+    }
     
     
     // E 21. Merge Two Sorted Lists
@@ -35,30 +146,35 @@ public class CodeSnippets
         if(l1==null) return l2;
         if(l2==null) return l1;
         
-        ListNode curr;
-        while(l1!=null && l2!=null){
+        ListNode head = new ListNode(0);
+        ListNode curr = head;
+        while(l1!=null&&l2!=null){
             if(l1.val<l2.val){
-                curr.next = l1;
-                l1=l1.next;
-                curr=curr.next;
-            }
-            else if(l1.val>l2.val){
-                curr.next = l2;
-                l2=l2.next;
-                curr=curr.next;
-            }
-            else
-            {
-                curr.next = l1;
+                curr.next = new ListNode(l1.val);
                 curr = curr.next;
-                curr.next = l2;
-                curr=curr.next;
+                l1 = l1.next;
+            }
+            else if(l1.val > l2.val){
+                curr.next = new ListNode(l2.val);
+                curr = curr.next;
+                l2 = l2.next;
+            }
+            else{
+                curr.next = new ListNode(l1.val);
+                curr = curr.next;
+                l1 = l1.next;
+                curr.next = new ListNode(l2.val);
+                curr = curr.next;
+                l2 = l2.next;
             }
         }
         if(l1!=null) curr.next = l1;
         if(l2!=null) curr.next = l2;
         return head.next;
     }    
+    
+    
+// === 10/03/2016 ===
     
     
     // E 235. Lowest Common Ancestor of a Binary Search Tree
