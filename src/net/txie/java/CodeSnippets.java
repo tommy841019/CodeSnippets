@@ -15,10 +15,6 @@ public class CodeSnippets
     {
         CodeSnippets cs = new CodeSnippets();
         long start = System.currentTimeMillis();
-        
-        List<String> list = cs.readBinaryWatch(2);
-        for(String s : list)
-            System.out.print(String.format("%s ",s));
 
         System.out.println(String.format("Time: %dms", System.currentTimeMillis() - start));
 
@@ -31,7 +27,36 @@ public class CodeSnippets
     // E 107. Binary Tree Level Order Traversal II
     // OJ: 
     public List<List<Integer>> levelOrderBottom(TreeNode root) {
-        return null;
+        if(root == null) return new LinkedList<>();
+        if(root.left==null && root.right==null) {
+            List<List<Integer>> ll = new LinkedList<>();
+            LinkedList<Integer> list = new LinkedList<>();
+            list.add(1);
+            ll.add(list);
+            return ll;
+        }
+        LinkedList<TreeNode> queue = new LinkedList<>();
+        Stack<TreeNode> stack = new Stack<>();
+        queue.add(root);
+        queue.add(null);
+        stack.push(root);
+        stack.push(null);
+        while(!queue.isEmpty()){
+            TreeNode node = queue.pop();
+            if(node==null) {stack.push(null);continue;}
+            if(node.right != null) {queue.add(node.right);stack.push(node.right);}
+            if(node.left != null) {queue.add(node.left);stack.push(node.left);}
+        }
+        List<List<Integer>> ll = new LinkedList<>();
+        LinkedList<Integer> list = new LinkedList<>();
+        if(!stack.isEmpty()&&stack.peek()==null) stack.pop();
+        while(!stack.isEmpty()){
+            TreeNode node = stack.pop();
+            if(node==null) {ll.add(list);list = new LinkedList();}
+            else if(stack.isEmpty()) {list.add(node.val);ll.add(list);list = new LinkedList();}
+            else list.add(node.val);
+        }
+        return ll; 
     }
 
 
@@ -50,9 +75,10 @@ public class CodeSnippets
                 sum+=nums[i];
                 i = i+2;
             }
-            else
+            else return 0;
                 
         }
+        return 0;
     }
     
     
@@ -862,7 +888,7 @@ public class CodeSnippets
         if (s == null) return false;
         if (s.length() == 0 || s.length() % 2 ==1) return false;
         
-        Stack<Character> sk = new Stack<Character>();
+        Stack<Character> sk = new Stack<>();
         sk.push(s.charAt(0));
         for(int i=1; i<s.length(); i++)
         {
@@ -963,7 +989,7 @@ public class CodeSnippets
     {
         if(nums == null) throw new IllegalArgumentException();
         
-        HashMap<Integer, Integer> hm = new HashMap<Integer, Integer>();
+        HashMap<Integer, Integer> hm = new HashMap<>();
         
         for(int i=0; i<nums.length; i++)
         {
@@ -1148,7 +1174,7 @@ public class CodeSnippets
         
         boolean isBegin = false;
         boolean isNegative = false;
-        LinkedList<Character> ll = new LinkedList<Character>();
+        LinkedList<Character> ll = new LinkedList<>();
         for(int i=0; i<str.length(); i++)
         {
         	if(!isBegin && str.charAt(i) == ' ') continue;
@@ -1189,7 +1215,7 @@ public class CodeSnippets
 	{
         if(nums == null || nums.length == 0) throw new IllegalArgumentException("Invalid Input");
         
-        HashMap<Integer, Integer> hm = new HashMap<Integer, Integer>();
+        HashMap<Integer, Integer> hm = new HashMap<>();
         for(int i=0; i<nums.length; i++)
         {
         	int key = nums[i];
@@ -1222,7 +1248,7 @@ public class CodeSnippets
         
         if(nums.length <= 1) return false;
         
-        HashSet<Integer> hs = new HashSet<Integer>();
+        HashSet<Integer> hs = new HashSet<>();
         for(int i=0; i<nums.length; i++)
         	if(!hs.add(nums[i])) return true;
         
@@ -1240,7 +1266,7 @@ public class CodeSnippets
 		Arrays.sort(nums1);
 		Arrays.sort(nums2);
 		
-		LinkedList<Integer> ll = new LinkedList<Integer>();
+		LinkedList<Integer> ll = new LinkedList<>();
 		for(int i=0, j=0; i<nums1.length && j<nums2.length;)
 		{
 			if(nums1[i]<nums2[j]) 
@@ -1255,7 +1281,7 @@ public class CodeSnippets
 			}
 		}
 		
-		if(ll.size() == 0)
+		if(ll.isEmpty())
 			return new int[0];
 		else
 		{
@@ -1335,7 +1361,7 @@ public class CodeSnippets
         if(ransomNote == null && magazine == null) return true;
         if(ransomNote == null || magazine == null) return false;
         
-        HashMap<Character, Integer> magazineAsHashMap = new HashMap<Character, Integer>();
+        HashMap<Character, Integer> magazineAsHashMap = new HashMap<>();
         for(int i=0; i<magazine.length(); i++)
         {
         	Character key = magazine.charAt(i);
@@ -1384,7 +1410,7 @@ public class CodeSnippets
 		if(s.length() == 0 && t.length() == 0) return true;
 		if(s.length() != t.length()) return false;
 		
-		HashMap<Character, Integer> sHM = new HashMap<Character, Integer>();
+		HashMap<Character, Integer> sHM = new HashMap<>();
 		for(int i=0; i<s.length(); i++)
 		{
 			Character key = s.charAt(i);
@@ -1406,7 +1432,7 @@ public class CodeSnippets
 					sHM.put(key, sHM.get(key) - 1);
 		}
 		
-		if(sHM.keySet().size()==0)
+		if(sHM.keySet().isEmpty())
 			return true;
 		else
 			return false;	
@@ -1421,7 +1447,7 @@ public class CodeSnippets
         if(s.length() == 0) return -1;
         if(s.length() == 1) return 0;
         
-        HashMap<Character, Integer> hm = new HashMap<Character, Integer>();
+        HashMap<Character, Integer> hm = new HashMap<>();
         for(int i=0; i<s.length(); i++)
         {
         	Character key = s.charAt(i);
@@ -1453,11 +1479,11 @@ public class CodeSnippets
         	return new int[0];
         else
         {
-        	HashSet<Integer> nums1HS = new HashSet<Integer>();
+        	HashSet<Integer> nums1HS = new HashSet<>();
         	for(int i=0; i<nums1.length; i++)
         		nums1HS.add(nums1[i]);
         	
-        	HashSet<Integer> resultHS = new HashSet<Integer>();
+        	HashSet<Integer> resultHS = new HashSet<>();
         	for(int i=0; i<nums2.length; i++)
         	{
         		if(nums1HS.contains(nums2[i]))
