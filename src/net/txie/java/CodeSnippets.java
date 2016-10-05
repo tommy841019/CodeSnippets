@@ -25,7 +25,7 @@ public class CodeSnippets
     }
     
     
-// === 10/04/2016 ===
+// === 10/05/2016 ===
     
     
     // E 107. Binary Tree Level Order Traversal II
@@ -35,13 +35,6 @@ public class CodeSnippets
     }
 
 
-    // E 141. Linked List Cycle
-    // OJ: 
-    public boolean hasCycle(ListNode head) {
-        return false;
-    }
-    
-    
     // E 198. House Robber
     // OJ: 
     public int rob(int[] nums) {
@@ -60,6 +53,22 @@ public class CodeSnippets
             else
                 
         }
+    }
+    
+    
+// === 10/04/2016 ===
+    
+    
+    // E 141. Linked List Cycle
+    // OJ: PASS
+    public boolean hasCycle(ListNode head) {
+        HashSet<ListNode> hs = new HashSet<>();
+        while(head!=null){
+            if(hs.contains(head)) return true;
+            hs.add(head);
+            head = head.next;
+        }
+        return false;
     }
     
     
