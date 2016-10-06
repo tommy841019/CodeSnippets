@@ -8,6 +8,8 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Stack;
 import java.util.List;
+import java.util.ArrayList;
+import java.util.Collections;
 
 public class CodeSnippets
 {
@@ -15,6 +17,14 @@ public class CodeSnippets
     {
         CodeSnippets cs = new CodeSnippets();
         long start = System.currentTimeMillis();
+        
+        TreeNode root = new TreeNode(3);
+        root.left = new TreeNode(9);
+        root.right = new TreeNode(20);
+        root.right.left = new TreeNode(15);
+        root.right.right = new TreeNode(7);
+        
+        List<List<Integer>> list = cs.levelOrderBottom(root);
 
         System.out.println(String.format("Time: %dms", System.currentTimeMillis() - start));
 
@@ -22,63 +32,74 @@ public class CodeSnippets
     
     
 // === 10/05/2016 ===
+	
+	
+    // E 13. Roman to Integer
+    // OJ:
+    public int romanToInt(String s) 
+    {
+        int result = 0;
+        if(s.length()==0) return result;
+        HashMap<Character, Integer> hm = new HashMap<>();
+        hm.put('I', 1);
+        hm.put('V', 5);
+        hm.put('X', 10);
+        hm.put('L', 50);
+        hm.put('C', 100);
+        hm.put('D', 500);
+        hm.put('M', 1000);
+        if(s.length()==1) return hm.get(s.charAt(0));
+        int i = 
+        for(int )
+    }	
     
     
     // E 107. Binary Tree Level Order Traversal II
-    // OJ: 
+    // OJ: PASS
+    // LinkedList.push() add element to head
+    // use offer instead to put element to tail
+    // Level traversal and return result in reverse order
     public List<List<Integer>> levelOrderBottom(TreeNode root) {
         if(root == null) return new LinkedList<>();
-        if(root.left==null && root.right==null) {
-            List<List<Integer>> ll = new LinkedList<>();
-            LinkedList<Integer> list = new LinkedList<>();
-            list.add(1);
-            ll.add(list);
-            return ll;
-        }
+        List<List<Integer>> ll = new ArrayList<>();
+        LinkedList<Integer> list = new LinkedList<>();
         LinkedList<TreeNode> queue = new LinkedList<>();
-        Stack<TreeNode> stack = new Stack<>();
         queue.add(root);
         queue.add(null);
-        stack.push(root);
-        stack.push(null);
         while(!queue.isEmpty()){
             TreeNode node = queue.pop();
-            if(node==null) {stack.push(null);continue;}
-            if(node.right != null) {queue.add(node.right);stack.push(node.right);}
-            if(node.left != null) {queue.add(node.left);stack.push(node.left);}
+            if(node==null){
+                if(!queue.isEmpty()){
+                    ll.add(list);
+                    queue.offer(null);
+                    list=new LinkedList<>();
+                }
+                else ll.add(list);
+            }       
+            else{
+                list.add(node.val);
+                if(node.left != null) queue.add(node.left);
+                if(node.right != null) queue.add(node.right);
+            }
         }
-        List<List<Integer>> ll = new LinkedList<>();
-        LinkedList<Integer> list = new LinkedList<>();
-        if(!stack.isEmpty()&&stack.peek()==null) stack.pop();
-        while(!stack.isEmpty()){
-            TreeNode node = stack.pop();
-            if(node==null) {ll.add(list);list = new LinkedList();}
-            else if(stack.isEmpty()) {list.add(node.val);ll.add(list);list = new LinkedList();}
-            else list.add(node.val);
-        }
+        Collections.reverse(ll); 
         return ll; 
     }
 
 
     // E 198. House Robber
-    // OJ: 
+    // OJ: PASS with Hint
+    // since don't know about follwoing numbers, need to look backward for max
+    // n = max(sumof(n-2), sumof(n-3)) + n
+    // return max of last two
     public int rob(int[] nums) {
         if(nums.length==0) return 0;
         if(nums.length==1) return nums[0];
-        int sum=0;
-        for(int i=0; i<nums.length; i++){
-            if(nums[i]<nums[i+1]){
-                sum+=nums[i+1];
-                i = i+1+2;
-            }
-            else if(nums[i]>nums[i+1]){
-                sum+=nums[i];
-                i = i+2;
-            }
-            else return 0;
-                
+        if(nums.length==2) return Math.max(nums[0], nums[1]);
+        for(int i=2; i<nums.length; i++){
+            nums[i] += i==2? nums[0] : Math.max(nums[i-2], nums[i-3]);
         }
-        return 0;
+        return Math.max(nums[nums.length-1], nums[nums.length-2]);
     }
     
     
@@ -175,7 +196,8 @@ public class CodeSnippets
     
     
     // E 21. Merge Two Sorted Lists
-    // OJ: 
+    // OJ: PASS
+    
     public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
         if(l1==null && l2==null) return null;
         if(l1==null) return l2;
@@ -483,31 +505,6 @@ public class CodeSnippets
         }
         
         return pre;
-    }
-    
-    
-    // M 15. 3Sum
-    // o(N^2)
-    // OJ:
-    public List<List<Integer>> threeSum(int[] nums) 
-    {
-        return null;
-    }	
-	
-	
-    // E 13. Roman to Integer
-    // OJ:
-    public int romanToInt(String s) 
-    {
-        return 0;
-    }	
-	
-	
-    // M 12. Integer to Roman
-    // OJ:
-    public String intToRoman(int num) 
-    {
-        return "";
     }
         
 	
