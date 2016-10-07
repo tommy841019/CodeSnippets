@@ -18,24 +18,31 @@ public class CodeSnippets
         CodeSnippets cs = new CodeSnippets();
         long start = System.currentTimeMillis();
         
-        TreeNode root = new TreeNode(3);
-        root.left = new TreeNode(9);
-        root.right = new TreeNode(20);
-        root.right.left = new TreeNode(15);
-        root.right.right = new TreeNode(7);
-        
-        List<List<Integer>> list = cs.levelOrderBottom(root);
+        System.out.println(cs.romanToInt("MMMDLXXXVI"));
 
         System.out.println(String.format("Time: %dms", System.currentTimeMillis() - start));
 
     }
     
     
-// === 10/05/2016 ===
+// === 10/06/2016 ===
+    
+    
+    // E 27. Remove Element
+    // OJ: PASS with hint
+    // if element == val => shift both pointer, otherwise shift i in order to overwrite j pointer
+    public int removeElement(int[] nums, int val) {
+        if(nums.length==0) return 0;
+        int j = 0;
+        for(int i=0; i<nums.length; i++){
+            if(nums[i]!=val) nums[j++]=nums[i];
+        }
+        return j;
+    }    
 	
 	
     // E 13. Roman to Integer
-    // OJ:
+    // OJ: PASS
     public int romanToInt(String s) 
     {
         int result = 0;
@@ -49,8 +56,14 @@ public class CodeSnippets
         hm.put('D', 500);
         hm.put('M', 1000);
         if(s.length()==1) return hm.get(s.charAt(0));
-        int i = 
-        for(int )
+        for(int i=0; i<s.length(); i++){
+            if(i+1==s.length()) result+=hm.get(s.charAt(i));
+            else{
+                if(hm.get(s.charAt(i+1))>hm.get(s.charAt(i))) result -= hm.get(s.charAt(i));
+                else result += hm.get(s.charAt(i));
+            }
+        }
+        return result;
     }	
     
     
