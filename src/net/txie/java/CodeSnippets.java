@@ -10,6 +10,7 @@ import java.util.Stack;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Queue;
 
 public class CodeSnippets
 {
@@ -22,6 +23,77 @@ public class CodeSnippets
 
         System.out.println(String.format("Time: %dms", System.currentTimeMillis() - start));
 
+    }
+    
+    
+// === 10/07/2016 ===
+    
+    
+    // E 118. Pascal's Triangle
+    // OJ: 
+    public List<List<Integer>> generate(int numRows) {
+        if(numRows == 0) return new LinkedList<>();
+        List<List<Integer>> list = new LinkedList<>();
+        LinkedList<Integer> subList = new LinkedList<>();
+        subList.add(1);
+        int intg = 1;
+        list.add(subList);
+        for(int i=1; i<numRows; i++){
+            Iterator<Integer> it = subList.iterator();
+            LinkedList<Integer> newList = new LinkedList<>();
+            newList.add(1);
+            while(it.hasNext()){
+                int next = it.next(); 
+                if(it.hasNext()){
+                    intg = it.next();
+                   newList.add(intg+next);
+                }
+            }
+            newList.add(1);
+            list.add(newList);
+            subList = (LinkedList)list.get(list.size()-1);
+        }
+        return list;
+    }
+    
+    
+    // E 66. Plus One
+    // OJ: PASS
+    public int[] plusOne(int[] digits) {
+        boolean hasCarry = false;
+        for(int i=digits.length-1; i>=0; i--){
+            if(i==digits.length-1){
+                hasCarry = (digits[i]+1>=10);
+                digits[i] = (digits[i]+1)%10;
+            }
+            else{
+                int tmp = digits[i]+(hasCarry?1:0);
+                hasCarry = tmp>=10;
+                digits[i] = tmp%10;
+            }
+        }
+        if(hasCarry){
+            int[] tmp = new int[digits.length+1];
+            tmp[0]=1;
+            System.arraycopy(digits, 0, tmp, 1, digits.length);
+            digits = tmp;
+        }
+        return digits;
+    }    
+    
+    
+    // E 101. Symmetric Tree
+    // OJ: PASS with hint
+    // Recursive using DFS, Iterative using BFS
+    // check if current nodes equal && left vs right && right vs left
+    public boolean isSymmetric(TreeNode root) {
+        if(root == null) return true;
+        return isSymmetricNodes(root.left, root.right);
+    }
+    public boolean isSymmetricNodes(TreeNode left, TreeNode right){
+        if(left==null && right==null) return true;
+        if(left==null || right==null) return false;
+        return left.val==right.val && isSymmetricNodes(left.left, right.right)&&isSymmetricNodes(left.right, right.left);
     }
     
     
