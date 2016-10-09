@@ -29,6 +29,121 @@ public class Solution
         Solution.solve("2**2**3**4**53*22**");
         Solution.solve("1");
     }
+
+
+// === 10/08/2016 ===
+    
+    
+    // 30 Days of Code
+    // Day 28: RegEx, Patterns, and Intro to Databases
+    public static void day28(String[] args) {
+        Scanner in = new Scanner(System.in);
+        HashMap<String, String> hm = new HashMap<>();
+        int N = in.nextInt();
+        for(int a0 = 0; a0 < N; a0++){
+            String firstName = in.next();
+            String emailID = in.next();
+            hm.put(emailID, firstName);
+        }
+        ArrayList<String> names = new ArrayList<>();
+        for(String emailID : hm.keySet())
+            if(emailID.contains("gmail.com")) names.add(hm.get(emailID));
+        Collections.sort(names);
+        for(String name : names)
+            System.out.println(name);
+    }
+    
+    
+    // 30 Days of Code
+    // Day 26: Nested Logic
+    // returned earilier
+    // returned same day
+    // returned same month
+    // returned same year
+    // returned different year
+    public static void fineCalculator(String[] args) {
+        try (Scanner in = new Scanner(System.in)) {
+            int actDay = in.nextInt();
+            int actMonth = in.nextInt();
+            int actYear = in.nextInt();
+            int dueDay = in.nextInt();
+            int dueMonth = in.nextInt();
+            int dueYear = in.nextInt();
+            if(dueYear<actYear) System.out.println(10000);
+            else if (dueYear==actYear){
+                if(dueMonth<actMonth) System.out.println(500*(actMonth-dueMonth));
+                else if(dueDay<actDay) System.out.println(15*(actDay-dueDay));
+                else System.out.println(0);
+            }
+            else System.out.println(0);
+        }
+    }
+    
+    
+    // 30 Days of Code
+    // Day 25: Running Time and Complexity
+    // 1 is not prime
+    // test from 2 to Math.sqrt(n)
+    // because both dividents cannot be greater than root of n
+    public static void isPrime(String[] args) {
+        try (Scanner in = new Scanner(System.in)) {
+            int numOfTestCases = in.nextInt();
+            int[] nums = new int[numOfTestCases];
+            for(int i=0;i <numOfTestCases; i++)
+                nums[i] = in.nextInt();
+            for(int i=0; i< nums.length; i++){
+                if(nums[i]<=1) {System.out.println("Not prime");continue;}
+                boolean isPrime= true;
+                for(int j=2; j<Math.sqrt(nums[i]); j++){
+                    if(nums[i]%j==0) {isPrime=false;break;}
+                }
+                if(isPrime) System.out.println("Prime");
+                else System.out.println("Not prime");
+            }
+        }
+    }
+    
+    
+    // 30 Days of Code
+    // Day 24: More Linked Lists
+    // Two pointer
+    public static ListNode removeDuplicates(ListNode head) {
+        if(head==null) return null;
+        if(head.next==null) return head;
+        ListNode currNode = head;
+        ListNode nextDiffNode = head.next;
+        while(nextDiffNode!=null){
+            if(currNode.val!=nextDiffNode.val){
+                currNode.next=nextDiffNode;
+                currNode = nextDiffNode;
+                nextDiffNode = nextDiffNode.next;
+            }
+            else{
+                if(nextDiffNode.next==null){
+                    currNode.next = null;
+                    break;
+                }
+                else
+                    nextDiffNode = nextDiffNode.next;
+            }
+        }
+        return head;
+    }
+    
+    
+    // 30 Days of Code
+    // Day 23: BST Level-Order Traversal
+    static void levelOrder(Node root){
+        if(root==null) System.out.println("");
+        Queue<Node> queue = new LinkedList<>();
+        queue.offer(root);
+        while(!queue.isEmpty()){
+            root = queue.poll();
+            System.out.print(String.format("%d ",root.data));
+            if(root.left!=null) queue.offer(root.left);
+            if(root.right!=null) queue.offer(root.right);
+        }
+    }    
     
     
 // === 10/01/2016 ===

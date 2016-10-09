@@ -25,8 +25,8 @@ public class CodeSnippets
 
     }
     
-    
-// === 10/07/2016 ===
+
+// === 10/09/2016 ===    
     
     
     // E 118. Pascal's Triangle
@@ -55,6 +55,32 @@ public class CodeSnippets
         }
         return list;
     }
+    
+    
+// === 10/08/2016 ===
+    
+    
+    // E 204. Count Primes
+    // OJ: PASS with hint
+    // Sieve of Eratosthenes algorithm
+    // assume all numbers are prime
+    // if current is prime, set all current*times to false
+    public int countPrimes(int n) {
+        int counter = 0;
+        boolean[] primes = new boolean[n];
+        for(int i=0; i<n; i++) primes[i] = true;
+        for(int i=2; i<n; i++){
+            if(primes[i])
+                for(int j=2; i*j<n; j++)
+                    if(primes[i*j]) primes[i*j]=false;
+        }
+        for(int i=2;i<n;i++)
+            if(primes[i]) counter++;
+        return counter;
+    }
+    
+    
+// === 10/07/2016 ===
     
     
     // E 66. Plus One
