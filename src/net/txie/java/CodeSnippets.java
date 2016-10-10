@@ -25,6 +25,135 @@ public class CodeSnippets
 
     }
     
+    
+// === 10/10/2016 ===
+    
+    
+    // E 303. Range Sum Query - Immutable
+    // OJ: 
+    public class NumArray {
+
+        public NumArray(int[] nums) {
+
+        }
+
+        public int sumRange(int i, int j) {
+
+        }
+    }
+    
+    
+    // E 155. Min Stack
+    // OJ: PASS
+    // stack + min 
+    // calculate min when push
+    // calculate min when pop if:stack is empty or pop min val
+    public class MinStack {
+        Stack<Integer> stack;
+        Integer minVal;
+        /** initialize your data structure here. */
+        public MinStack() {
+            stack = new Stack<>();
+            minVal = null;
+        }
+
+        public void push(int x) {
+            stack.push(x);
+            minVal = (minVal==null?x:(Math.min(x, minVal)));
+        }
+
+        public void pop() {
+            int x = stack.peek();
+            stack.pop();
+            if(x==minVal){
+                if(!stack.isEmpty()){
+                    minVal = stack.peek();
+                    for(Integer i : stack){
+                        minVal = Math.min(minVal, i);
+                    }
+                }
+                else{
+                    minVal = null;
+                }
+            }
+        }
+
+        public int top() {
+            return stack.peek();
+        }
+
+        public int getMin() {
+            return minVal;
+        }
+    }
+    
+    
+    // E 225. Implement Stack using Queues
+    // OJ: PASS
+    // Rotate queue when push
+    class MyStack {
+        Queue<Integer> queue = new LinkedList<>();
+        // Push element x onto stack.
+        public void push(int x) {
+            queue.offer(x);
+            shift();
+        }
+
+        // Removes the element on top of the stack.
+        public void pop() {
+            queue.remove();
+        }
+
+        // Get the top element.
+        public int top() {
+            return queue.peek();
+        }
+
+        // Return whether the stack is empty.
+        public boolean empty() {
+            return queue.isEmpty();
+        }
+        
+        public void shift(){
+            for(int i=1; i<=queue.size()-1; i++)
+                queue.offer(queue.remove());
+        }
+    }
+    
+    
+    // E 232. Implement Queue using Stacks
+    // OJ: PASS
+    // Two stacks: in, out
+    class MyQueue {
+        Stack<Integer> in = new Stack<>();
+        Stack<Integer> out = new Stack<>();
+        // Push element x to the back of queue.
+        public void push(int x) {
+            in.push(x);
+        }
+
+        // Removes the element from in front of queue.
+        public void pop() {
+            if(out.isEmpty())
+                while(!in.isEmpty())
+                    out.push(in.pop());
+            out.pop();
+        }
+
+        // Get the front element.
+        public int peek() {
+            if(out.isEmpty())
+                while(!in.isEmpty())
+                    out.push(in.pop());
+            return out.peek();
+        }
+
+        // Return whether the queue is empty.
+        public boolean empty() {
+            return out.isEmpty()&&in.isEmpty();
+        }
+    }
+    
 
 // === 10/09/2016 ===    
     
