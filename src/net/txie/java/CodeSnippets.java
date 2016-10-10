@@ -29,31 +29,92 @@ public class CodeSnippets
 // === 10/09/2016 ===    
     
     
-    // E 118. Pascal's Triangle
-    // OJ: 
-    public List<List<Integer>> generate(int numRows) {
-        if(numRows == 0) return new LinkedList<>();
-        List<List<Integer>> list = new LinkedList<>();
-        LinkedList<Integer> subList = new LinkedList<>();
-        subList.add(1);
-        int intg = 1;
-        list.add(subList);
-        for(int i=1; i<numRows; i++){
-            Iterator<Integer> it = subList.iterator();
-            LinkedList<Integer> newList = new LinkedList<>();
-            newList.add(1);
-            while(it.hasNext()){
-                int next = it.next(); 
-                if(it.hasNext()){
-                    intg = it.next();
-                   newList.add(intg+next);
-                }
+    // E 26. Remove Duplicates from Sorted Array
+    // OJ: PASS
+    // Two pointer, mark dup with max value and sord array with max mark, return length-numOfDup
+    public int removeDuplicates(int[] nums) {
+        if(nums.length==0) return 0;
+        if(nums.length==1) return 1;
+        int dupCount = 0;
+        int max = nums[nums.length-1]+1;
+        for(int i=0,j=1; j<nums.length;){
+            if(nums[i]==nums[j]){
+                nums[j]=max;
+                dupCount++;
+                j++;
             }
-            newList.add(1);
-            list.add(newList);
-            subList = (LinkedList)list.get(list.size()-1);
+            else{
+                i=j;
+                j++;
+            }
         }
-        return list;
+        Arrays.sort(nums);
+        return nums.length-dupCount;
+    }    
+    
+    
+    // E 102. Binary Tree Level Order Traversal
+    // OJ: PASS
+    public List<List<Integer>> levelOrder(TreeNode root) {
+        List<List<Integer>> ll = new LinkedList<>();
+        if(root==null) return ll;
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+        queue.offer(null);
+        LinkedList<Integer> nodes = new LinkedList<>();
+        while(!queue.isEmpty()){
+            TreeNode node = queue.poll();
+            if(node==null){
+                ll.add(nodes);
+                if(queue.isEmpty()){
+                    break;
+                }
+                queue.offer(null);
+                nodes = new LinkedList<>();
+            }
+            else{
+                nodes.add(node.val);
+                if(node.left!=null) queue.add(node.left);
+                if(node.right!=null) queue.add(node.right);
+            }
+        }
+        return ll;
+    }    
+    
+    
+    // E 110. Balanced Binary Tree
+    // OJ: Pass with hint
+    // Current tree needs to be balanced
+    // Every sub tree needs to be balanced
+    public boolean isBalanced(TreeNode root) {
+        if(root==null) return true;
+        return Math.abs(getHeightOfTree(root.left)-getHeightOfTree(root.right))<2 
+                && isBalanced(root.left) && isBalanced(root.right);
+    }
+    public int getHeightOfTree(TreeNode node){
+        if(node==null) {return 0;}
+        return 1 + Math.max(getHeightOfTree(node.left), getHeightOfTree(node.right));
+    }
+    
+    
+    // E 118. Pascal's Triangle
+    // OJ: PASS
+    // using ArrayList with index
+    // if out-of-boundary add 1
+    // if index == previous list size add 1 then break
+    // else index val = previous-1 + previous
+    public List<List<Integer>> generate(int numRows) {
+        if(numRows<=0) return new ArrayList<>();
+        List<List<Integer>> triangle = new ArrayList<>();
+        for(int i=0;i<numRows;i++){
+            triangle.add(new ArrayList<Integer>());
+            for(int j=0;j<=i;j++){
+                if(i-1<0 || j-1<0) triangle.get(i).add(1);
+                else if(triangle.get(i-1).size()==j) {triangle.get(i).add(1);break;}
+                else triangle.get(i).add(triangle.get(i-1).get(j-1)+triangle.get(i-1).get(j));
+            }
+        }
+        return triangle;
     }
     
     
