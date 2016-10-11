@@ -26,21 +26,52 @@ public class CodeSnippets
     }
     
     
-// === 10/10/2016 ===
+// === 10/11/2016 ===
+    
+    
+    // E 415. Add Strings
+    // OJ: PASS
+    // Make num1 the longer string
+    // loop through num1, if exceed num2 length, set digit from num2=0, add digit1,digit2,carry
+    // check final carry
+    public String addStrings(String num1, String num2) {
+        StringBuilder sb = new StringBuilder();
+        if(num1.length()==0 && num2.length()==0) return sb.toString();
+        if(num1.length()==0) return num2;
+        if(num2.length()==0) return num1;
+        if(num1.length()<num2.length()){
+            String tmp = num1;
+            num1 = num2;
+            num2 = tmp;
+        }
+        boolean hasCarry = false;
+        for(int i_1=num1.length()-1, i_2=num2.length()-1;i_1>=0; i_1--, i_2--){
+            int digSum = (num1.charAt(i_1)-'0')
+                    +((i_2<0 ? 0 : num2.charAt(i_2)-'0')
+                    +(hasCarry?1:0));
+            sb.insert(0, digSum%10);
+            hasCarry = (digSum>=10);
+        }
+        if(hasCarry) sb.insert(0, 1);
+        return sb.toString();
+    }
     
     
     // E 303. Range Sum Query - Immutable
     // OJ: 
     public class NumArray {
-
+        HashMap<String, Integer> hm = new HashMap<>();
         public NumArray(int[] nums) {
 
         }
-
+        
         public int sumRange(int i, int j) {
 
         }
     }
+    
+    
+// === 10/10/2016 ===
     
     
     // E 155. Min Stack
@@ -1988,8 +2019,3 @@ public class CodeSnippets
     }
 	
 }
-
-
-
-
-
