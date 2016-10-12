@@ -26,6 +26,94 @@ public class CodeSnippets
     }
     
     
+// === 10/12/2016 ===
+    
+    
+    // E 36. Valid Sudoku
+    // OJ: 
+    public boolean isValidSudoku(char[][] board) {
+        for(int y=0; y<9; y++){
+            HashSet<Character> hs = new HashSet<>();
+            for(int x=0; x<9; x++)
+                if(board[y][x]!='.' && !hs.add(board[y][x])) return false;
+        }
+        for(int x=0; x<9; x++){
+            HashSet<Character> hs = new HashSet<>();
+            for(int y=0; y<9; y++)
+                if(board[y][x]!='.' && !hs.add(board[y][x])) return false;
+        }
+        for(int y=1; y<9; y+=3){
+            HashSet<Character> hs = new HashSet<>();
+            for(int x=1; x<9; x+=3){
+                if(board[y-1][x-1]!='.')
+                    if(!hs.add(board[y-1][x-1])) return false;
+                if(board[y-1][x]!='.')
+                    if(!hs.add(board[y-1][x])) return false;
+                if(board[y-1][x+1]!='.')
+                    if(!hs.add(board[y-1][x+1])) return false;
+                if(board[y][x-1]!='.')
+                    if(!hs.add(board[y][x-1])) return false;
+                if(board[y][x]!='.')
+                    if(!hs.add(board[y][x])) return false;
+                if(board[y][x+1]!='.')
+                    if(!hs.add(board[y][x+1])) return false;
+                if(board[y+1][x-1]!='.')
+                    if(!hs.add(board[y+1][x-1])) return false;
+                if(board[y+1][x]!='.')
+                    if(!hs.add(board[y+1][x])) return false;
+                if(board[y+1][x+1]!='.')
+                    if(!hs.add(board[y+1][x+1])) return false;
+            }
+        }
+        return true;
+    }
+    
+    
+    // E 219. Contains Duplicate II
+    // OJ: PASS
+    // HashMap remember last position
+    public boolean containsNearbyDuplicate(int[] nums, int k) {
+        if(k<=0) return false;
+        HashMap<Integer, Integer> hm = new HashMap<>();
+        for(int i=0; i<nums.length; i++){
+            if(hm.containsKey(nums[i])){
+                if((i-hm.get(nums[i]))<=k) 
+                    return true;
+                else
+                    hm.put(nums[i], i);
+            }
+            else{
+                hm.put(nums[i], i);
+            }
+        }
+        return false;
+    }
+    
+    
+    // E 119. Pascal's Triangle II
+    // OJ: PASS
+    public List<Integer> getRow(int rowIndex) {
+        if(rowIndex<0) return new ArrayList<>();
+        List<Integer> pre = new ArrayList<>();
+        pre.add(1);
+        for(int i=1; i<=rowIndex; i++){
+            List<Integer> curr = new ArrayList<>();
+            curr.add(1);
+            for(int j=1; j<=rowIndex; j++){
+                if(j==pre.size()){
+                    curr.add(1);
+                    pre = curr;
+                    break;
+                }
+                else{
+                    curr.add(pre.get(j)+pre.get(j-1));
+                }
+            }
+        }
+        return pre;
+    }
+    
+    
 // === 10/11/2016 ===
     
     
