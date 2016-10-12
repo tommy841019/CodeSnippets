@@ -29,6 +29,24 @@ public class CodeSnippets
 // === 10/11/2016 ===
     
     
+    // E 396. Rotate Function
+    // OJ: PASS
+    // calculate new index: int ind = i+k>=A.length ? i+k-A.length : i+k;
+    public int maxRotateFunction(int[] A) {
+        if(A.length==0) return 0;
+        Integer max = null;
+        for(int k=0; k<A.length; k++){
+            int sum = 0;
+            for(int i=0; i<A.length; i++){
+                int ind = i+k>=A.length ? i+k-A.length : i+k;
+                sum += ind*A[i];
+            }
+            max = max==null?sum : Math.max(max, sum);
+        }
+        return max;
+    }    
+    
+    
     // E 415. Add Strings
     // OJ: PASS
     // Make num1 the longer string
@@ -58,15 +76,19 @@ public class CodeSnippets
     
     
     // E 303. Range Sum Query - Immutable
-    // OJ: 
+    // OJ: PASS with hint
+    // store sum in nums array by using nums[i]+=nums[i-1]
+    // return nums[j]-nums[i-1]
     public class NumArray {
-        HashMap<String, Integer> hm = new HashMap<>();
+        int[] nums;
         public NumArray(int[] nums) {
-
+            for(int i=1; i<nums.length; i++)
+                nums[i] += nums[i-1];
+            this.nums = nums;
         }
         
         public int sumRange(int i, int j) {
-
+            return i==0? nums[j] : nums[j] - nums[i-1];
         }
     }
     
