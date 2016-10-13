@@ -19,20 +19,49 @@ public class CodeSnippets
         CodeSnippets cs = new CodeSnippets();
         long start = System.currentTimeMillis();
         
-        char[][] board = new char[][]{   {'.','8','7','6','5','4','3','2','1'}
-                                        ,{'2','.','.','.','.','.','.','.','.'}
-                                        ,{'3','.','.','.','.','.','.','.','.'}
-                                        ,{'4','.','.','.','.','.','.','.','.'}
-                                        ,{'5','.','.','.','.','.','.','.','.'}
-                                        ,{'6','.','.','.','.','.','.','.','.'}
-                                        ,{'7','.','.','.','.','.','.','.','.'}
-                                        ,{'8','.','.','.','.','.','.','.','.'}
-                                        ,{'9','.','.','.','.','.','.','.','.'}
-                                    };
-        System.out.println(cs.isValidSudoku(board));
-
+        System.out.println(cs.wordPattern1("aba", "b a a"));
+        System.out.println(cs.wordPattern("aba", "b a a"));
         System.out.println(String.format("Time: %dms", System.currentTimeMillis() - start));
 
+    }
+    public boolean wordPattern1(String pattern, String str) {
+    String[] words = str.split(" ");
+    if (words.length != pattern.length())
+        return false;
+    Map index = new HashMap();
+    for (Integer i=0; i<words.length; ++i)
+        if (index.put(pattern.charAt(i), i) != index.put(words[i], i))
+            return false;
+    return true;
+}
+    
+// === 10/13/2016 ===
+    
+    
+    // E 205. Isomorphic Strings
+    // OJ: 
+    public boolean isIsomorphic(String s, String t) {
+        if(s.length()!=t.length()) return false;
+        HashSet<Object> sh = new HashSet<>();
+        for(int i=0; i<s.length(); i++)
+            if(sh.add(s.charAt(i))!=sh.add(t.charAt(i)+"")) return false;
+        return true;
+    }
+    
+    
+    // E 290. Word Pattern
+    // OJ: PASS optimized with hint
+    // add pattern and str to hashset same time
+    // since one is char, one is string, 'a' and "a" won't cause wrong value
+    public boolean wordPattern(String pattern, String str) {
+        if(pattern == null && str == null) return true;
+        if(pattern == null || str == null) return false;
+        String[] strs = str.split(" ");
+        if(pattern.length()!=strs.length) return false;
+        HashMap hs = new HashMap();
+        for(int i=0; i<strs.length; i++)
+            if(!hs.put(pattern.charAt(i),i).equals(hs.put(strs[i],i))) return false;
+        return true;
     }
     
     
