@@ -19,7 +19,17 @@ public class CodeSnippets
         CodeSnippets cs = new CodeSnippets();
         long start = System.currentTimeMillis();
         
-        System.out.println(cs.romanToInt("MMMDLXXXVI"));
+        char[][] board = new char[][]{   {'.','8','7','6','5','4','3','2','1'}
+                                        ,{'2','.','.','.','.','.','.','.','.'}
+                                        ,{'3','.','.','.','.','.','.','.','.'}
+                                        ,{'4','.','.','.','.','.','.','.','.'}
+                                        ,{'5','.','.','.','.','.','.','.','.'}
+                                        ,{'6','.','.','.','.','.','.','.','.'}
+                                        ,{'7','.','.','.','.','.','.','.','.'}
+                                        ,{'8','.','.','.','.','.','.','.','.'}
+                                        ,{'9','.','.','.','.','.','.','.','.'}
+                                    };
+        System.out.println(cs.isValidSudoku(board));
 
         System.out.println(String.format("Time: %dms", System.currentTimeMillis() - start));
 
@@ -30,7 +40,8 @@ public class CodeSnippets
     
     
     // E 36. Valid Sudoku
-    // OJ: 
+    // OJ: PASS
+    // check row, check column, check cube
     public boolean isValidSudoku(char[][] board) {
         for(int y=0; y<9; y++){
             HashSet<Character> hs = new HashSet<>();
@@ -43,26 +54,17 @@ public class CodeSnippets
                 if(board[y][x]!='.' && !hs.add(board[y][x])) return false;
         }
         for(int y=1; y<9; y+=3){
-            HashSet<Character> hs = new HashSet<>();
             for(int x=1; x<9; x+=3){
-                if(board[y-1][x-1]!='.')
-                    if(!hs.add(board[y-1][x-1])) return false;
-                if(board[y-1][x]!='.')
-                    if(!hs.add(board[y-1][x])) return false;
-                if(board[y-1][x+1]!='.')
-                    if(!hs.add(board[y-1][x+1])) return false;
-                if(board[y][x-1]!='.')
-                    if(!hs.add(board[y][x-1])) return false;
-                if(board[y][x]!='.')
-                    if(!hs.add(board[y][x])) return false;
-                if(board[y][x+1]!='.')
-                    if(!hs.add(board[y][x+1])) return false;
-                if(board[y+1][x-1]!='.')
-                    if(!hs.add(board[y+1][x-1])) return false;
-                if(board[y+1][x]!='.')
-                    if(!hs.add(board[y+1][x])) return false;
-                if(board[y+1][x+1]!='.')
-                    if(!hs.add(board[y+1][x+1])) return false;
+                HashSet<Character> hs = new HashSet<>();
+                if((board[y-1][x-1]!='.' && !hs.add(board[y-1][x-1]))
+                ||(board[y-1][x]!='.' && !hs.add(board[y-1][x]))
+                ||(board[y-1][x+1]!='.' && !hs.add(board[y-1][x+1]))
+                ||(board[y][x-1]!='.' && !hs.add(board[y][x-1]))
+                ||(board[y][x]!='.' && !hs.add(board[y][x]))
+                ||(board[y][x+1]!='.' && !hs.add(board[y][x+1]))
+                ||(board[y+1][x-1]!='.' && !hs.add(board[y+1][x-1]))
+                ||(board[y+1][x]!='.' && !hs.add(board[y+1][x]))
+                ||(board[y+1][x+1]!='.' && !hs.add(board[y+1][x+1]))) return false;
             }
         }
         return true;
