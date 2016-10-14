@@ -18,33 +18,29 @@ public class CodeSnippets
     {
         CodeSnippets cs = new CodeSnippets();
         long start = System.currentTimeMillis();
-        
-        System.out.println(cs.wordPattern1("aba", "b a a"));
         System.out.println(cs.wordPattern("aba", "b a a"));
         System.out.println(String.format("Time: %dms", System.currentTimeMillis() - start));
 
     }
-    public boolean wordPattern1(String pattern, String str) {
-    String[] words = str.split(" ");
-    if (words.length != pattern.length())
-        return false;
-    Map index = new HashMap();
-    for (Integer i=0; i<words.length; ++i)
-        if (index.put(pattern.charAt(i), i) != index.put(words[i], i))
-            return false;
-    return true;
-}
+
     
-// === 10/13/2016 ===
+// === 10/14/2016 ===
+    
+    
+    // E 299. Bulls and Cows
+    // OJ: 
+    public String getHint(String secret, String guess) {
+        
+    }
     
     
     // E 205. Isomorphic Strings
     // OJ: 
     public boolean isIsomorphic(String s, String t) {
         if(s.length()!=t.length()) return false;
-        HashSet<Object> sh = new HashSet<>();
-        for(int i=0; i<s.length(); i++)
-            if(sh.add(s.charAt(i))!=sh.add(t.charAt(i)+"")) return false;
+        HashMap hm = new HashMap();
+        for(Integer i=0; i<s.length(); i++)
+            if(hm.put(s.charAt(i), i)!=hm.put(t.charAt(i)+"", i)) return false;
         return true;
     }
     
@@ -53,14 +49,19 @@ public class CodeSnippets
     // OJ: PASS optimized with hint
     // add pattern and str to hashset same time
     // since one is char, one is string, 'a' and "a" won't cause wrong value
+    // **NOTE**:    The idea is to compare is values are some object 
+    //              so in for loop, need to use Integer i NOT int i 
+    //              because int i will create two different Integer when put into HashMap
+    //              != will not work when comparing two Integer Objects
     public boolean wordPattern(String pattern, String str) {
         if(pattern == null && str == null) return true;
         if(pattern == null || str == null) return false;
         String[] strs = str.split(" ");
         if(pattern.length()!=strs.length) return false;
         HashMap hs = new HashMap();
-        for(int i=0; i<strs.length; i++)
-            if(!hs.put(pattern.charAt(i),i).equals(hs.put(strs[i],i))) return false;
+        for(Integer i=0; i<strs.length; i++)
+            if(hs.put(pattern.charAt(i),i)!=hs.put(strs[i],i)) 
+                return false;
         return true;
     }
     
