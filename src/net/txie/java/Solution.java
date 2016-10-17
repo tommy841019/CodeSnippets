@@ -17,17 +17,69 @@ public class Solution
     public static void main(String[] args) 
     {
         Solution hr = new Solution();
-        double d = 54327115000000.0;
-        
-        Solution.solve("1*120**20");
-        Solution.solve("-3*-2**3**2*-15");
-        Solution.solve("*3*22**3**2*15");
-        Solution.solve("3*22**3**2***15");
-        Solution.solve("3*22**3**2*15*");
-        Solution.solve("***************");
-        Solution.solve("1*2*3*4*5");
-        Solution.solve("2**2**3**4**53*22**");
-        Solution.solve("1");
+        MyQueue<Integer> q = new MyQueue<>();
+        q.enqueue(1);
+        q.enqueue(2);
+        q.enqueue(3);
+        System.out.println(q.peek());
+        q.dequeue();
+        System.out.println(q.peek());
+        q.enqueue(4);
+    }
+    
+    
+// === 10/17/2016 ===
+    
+    
+    // CTCI
+    // M Trees: Is This a Binary Search Tree?
+    boolean checkBST(Node root) {
+        if(root==null) return true;
+        Queue<Node> queue = new LinkedList<>();
+        queue.add(root);
+        while(!queue.isEmpty()){
+            Node node = queue.remove();
+            if(node.left!=null){
+                if(node.left.data>node.data) return false;
+                else queue.offer(node.left);
+            }
+            if(node.right!=null){
+                if(node.right.data<node.data) return false;
+                else queue.offer(node.right);
+            }   
+        }
+        return true;
+    }
+    
+    
+    // CTCI
+    // M Queues: A Tale of Two Stacks
+    // alwasy enqueue to stackNewestOnTop
+    // when peek/dequeue, return from stackOldestOnTop first,
+    // if empty, pop stackNewestOnTop to stackOldestOnTop, then return
+    public static class MyQueue<T> {
+        Stack<T> stackNewestOnTop = new Stack<T>();
+        Stack<T> stackOldestOnTop = new Stack<T>();
+
+        public void enqueue(T value) { // Push onto newest stack
+            stackNewestOnTop.push(value);
+        }
+
+        public T peek() {
+            if(!stackOldestOnTop.isEmpty()) return stackOldestOnTop.peek();
+            else if(stackNewestOnTop.isEmpty()) return null;
+            while(!stackNewestOnTop.isEmpty())
+                stackOldestOnTop.push(stackNewestOnTop.pop());
+            return stackOldestOnTop.peek();
+        }
+
+        public T dequeue() {
+            if(!stackOldestOnTop.isEmpty()) return stackOldestOnTop.pop();
+            else if(stackNewestOnTop.isEmpty()) return null;
+            while(!stackNewestOnTop.isEmpty())
+                stackOldestOnTop.push(stackNewestOnTop.pop());
+            return stackOldestOnTop.pop();
+        }
     }
 
 
