@@ -1,4 +1,4 @@
-package net.txie.java;
+package net.txie.java.cc;
 
 import java.util.Arrays;
 import java.util.HashMap;
