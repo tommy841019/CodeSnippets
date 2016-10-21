@@ -28,13 +28,26 @@ public class Solution
     }
     
     
-// === 10/20/2016 ===
+// === 10/21/2016 ===
     
     
-    // CTCI
-    // M Trees: Is This a Binary Search Tree?
-    boolean checkBST(Node root) {
+    // Trees  
+    // M Tree: Huffman Decoding
+    void decode(String S ,Node root){
         
+    }
+    
+    
+    // CTCI And Trees
+    // M Trees: Is This a Binary Search Tree?
+    // Pass node with valid value range(min, max) recursively
+    boolean checkBST(Node root) {
+        return isBST(root, Integer.MIN_VALUE, Integer.MAX_VALUE);
+    }
+    boolean isBST(Node node, int min, int max){
+        if(node==null) return true;
+        if(node.data<=min || node.data>=max) return false;
+        return isBST(node.left, min, node.data) && isBST(node.right, node.data, max);
     }
     
     
