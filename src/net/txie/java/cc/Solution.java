@@ -1,4 +1,4 @@
-package net.txie.java;
+package net.txie.java.cc;
 
 import java.util.Scanner;
 import java.util.HashMap;
@@ -28,28 +28,30 @@ public class Solution
     }
     
     
-// === 10/17/2016 ===
+// === 10/21/2016 ===
     
     
-    // CTCI
-    // M Trees: Is This a Binary Search Tree?
-    boolean checkBST(Node root) {
-        if(root==null) return true;
-        Queue<Node> queue = new LinkedList<>();
-        queue.add(root);
-        while(!queue.isEmpty()){
-            Node node = queue.remove();
-            if(node.left!=null){
-                if(node.left.data>node.data) return false;
-                else queue.offer(node.left);
-            }
-            if(node.right!=null){
-                if(node.right.data<node.data) return false;
-                else queue.offer(node.right);
-            }   
-        }
-        return true;
+    // Trees  
+    // M Tree: Huffman Decoding
+    void decode(String S ,Node root){
+        
     }
+    
+    
+    // CTCI And Trees
+    // M Trees: Is This a Binary Search Tree?
+    // Pass node with valid value range(min, max) recursively
+    boolean checkBST(Node root) {
+        return isBST(root, Integer.MIN_VALUE, Integer.MAX_VALUE);
+    }
+    boolean isBST(Node node, int min, int max){
+        if(node==null) return true;
+        if(node.data<=min || node.data>=max) return false;
+        return isBST(node.left, min, node.data) && isBST(node.right, node.data, max);
+    }
+    
+    
+// === 10/17/2016 ===
     
     
     // CTCI
@@ -58,8 +60,8 @@ public class Solution
     // when peek/dequeue, return from stackOldestOnTop first,
     // if empty, pop stackNewestOnTop to stackOldestOnTop, then return
     public static class MyQueue<T> {
-        Stack<T> stackNewestOnTop = new Stack<T>();
-        Stack<T> stackOldestOnTop = new Stack<T>();
+        Stack<T> stackNewestOnTop = new Stack<>();
+        Stack<T> stackOldestOnTop = new Stack<>();
 
         public void enqueue(T value) { // Push onto newest stack
             stackNewestOnTop.push(value);

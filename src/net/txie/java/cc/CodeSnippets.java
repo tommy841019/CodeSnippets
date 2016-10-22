@@ -1,4 +1,4 @@
-package net.txie.java;
+package net.txie.java.cc;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -18,13 +18,13 @@ public class CodeSnippets
     {
         CodeSnippets cs = new CodeSnippets();
         long start = System.currentTimeMillis();
-        System.out.println(cs.getHintTwoHashMap("", ""));
+        System.out.println(cs.wordPattern("aba", "b a a"));
         System.out.println(String.format("Time: %dms", System.currentTimeMillis() - start));
 
     }
 
     
-// === 10/16/2016 ===
+// === 10/22/2016 ===
     
     
     // E 257. Binary Tree Paths
@@ -40,6 +40,9 @@ public class CodeSnippets
         dfs(root.left, paths, currPath);
         dfs(root.right, paths, currPath);
     }
+    
+    
+// === 10/16/2016 ===
     
     
     // E 299. Bulls and Cows
@@ -105,11 +108,8 @@ public class CodeSnippets
     }
     
     
-// === 10/14/2016 ===
-    
-    
     // E 205. Isomorphic Strings
-    // OJ: PASS
+    // OJ: 
     public boolean isIsomorphic(String s, String t) {
         if(s.length()!=t.length()) return false;
         HashMap hm = new HashMap();
