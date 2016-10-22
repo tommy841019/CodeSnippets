@@ -18,24 +18,98 @@ public class CodeSnippets
     {
         CodeSnippets cs = new CodeSnippets();
         long start = System.currentTimeMillis();
-        System.out.println(cs.wordPattern("aba", "b a a"));
+        System.out.println(cs.getHintTwoHashMap("", ""));
         System.out.println(String.format("Time: %dms", System.currentTimeMillis() - start));
 
     }
 
     
-// === 10/14/2016 ===
+// === 10/16/2016 ===
     
     
-    // E 299. Bulls and Cows
+    // E 257. Binary Tree Paths
     // OJ: 
-    public String getHint(String secret, String guess) {
-        
+    public List<String> binaryTreePaths(TreeNode root) {
+        List<String> paths = new LinkedList<>();
+        dfs(root, paths, new LinkedList<Integer>());
+        return paths;
+    }
+    public void dfs(TreeNode root, List<String> paths, List<Integer> currPath){
+        if(root.left==null && root.right==null) {paths.add(currPath.toString());return;}
+        currPath.add(root.val);
+        dfs(root.left, paths, currPath);
+        dfs(root.right, paths, currPath);
     }
     
     
+    // E 299. Bulls and Cows
+    // OJ: PASS
+    // use charAt or toCharArray counter 
+    // HashMap is much slower
+    public String getHint(String secret, String guess) {
+        if(secret==null || guess==null) return "0A0B";
+        int bulls = 0, cows = 0;
+        int[] counter = new int[10];
+        char[] sec = secret.toCharArray();
+        char[] gue = guess.toCharArray();
+        for(int i=0; i<sec.length; i++){
+            if(sec[i]==gue[i]) bulls++;
+            else counter[sec[i]-'0']++;
+        }
+        for(int i=0; i<gue.length; i++){
+            if(counter[gue[i]-'0']>0 && sec[i]!=gue[i]){
+                cows++;
+                counter[gue[i]-'0']--;
+            }
+        }
+        return String.format("%dA%dB", bulls, cows);
+    }
+    public String getHintString(String secret, String guess) {
+        if(secret==null || guess==null) return "0A0B";
+        int bulls = 0, cows = 0;
+        int[] counter = new int[10];
+        for(int i=0; i<secret.length(); i++){
+            if(secret.charAt(i)==guess.charAt(i)) bulls++;
+            else counter[secret.charAt(i)-'0']++;
+        }
+        for(int i=0; i<guess.length(); i++){
+            if(counter[guess.charAt(i)-'0']>0 && secret.charAt(i)!=guess.charAt(i)){
+                cows++;
+                counter[guess.charAt(i)-'0']--;
+            }
+        }
+        return String.format("%dA%dB", bulls, cows);
+    }
+    public String getHintTwoHashMap(String secret, String guess) {
+        if(secret==null || guess==null) return "0A0B";
+        int bulls = 0;
+        int cows = 0;
+        HashMap<Character, Integer> shm = new HashMap<>();
+        HashMap<Character, Integer> ghm = new HashMap<>();
+        for(int i=0; i<secret.length(); i++){
+            char s = secret.charAt(i);
+            char g = guess.charAt(i);
+            if(s==g) bulls++;
+            else{
+                if(shm.containsKey(s)) shm.put(s,shm.get(s)+1);
+                else shm.put(s,1);
+                if(ghm.containsKey(g)) ghm.put(g,ghm.get(g)+1);
+                else ghm.put(g, 1);
+            }
+        }
+        for(char c : shm.keySet()){
+            if(ghm.containsKey(c))
+                cows += Math.min(shm.get(c), ghm.get(c));
+        }
+        return String.format("%dA%dB",bulls, cows);
+    }
+    
+    
+// === 10/14/2016 ===
+    
+    
     // E 205. Isomorphic Strings
-    // OJ: 
+    // OJ: PASS
     public boolean isIsomorphic(String s, String t) {
         if(s.length()!=t.length()) return false;
         HashMap hm = new HashMap();
