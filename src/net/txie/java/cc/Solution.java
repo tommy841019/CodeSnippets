@@ -28,7 +28,7 @@ public class Solution
     }
     
     
-// === 10/21/2016 ===
+// === 10/23/2016 ===
     
     
     // Trees  
@@ -36,6 +36,36 @@ public class Solution
     void decode(String S ,Node root){
         
     }
+    
+    
+// === 10/22/2016 ===
+    
+    
+    // Algorithms  Warmup
+    // E Diagonal Difference
+    // sums+=a[i][a.length-1-i]
+    public void diagonalDiff(int[][] a){
+        int sump = 0, sums = 0;
+        for(int i=0; i<a.length; i++){
+            sump+= a[i][i];
+            sums+= a[i][a.length-i-1];
+        }
+        System.out.println(Math.abs(sump-sums));
+    }
+    
+    
+    // Algorithms  Warmup
+    // E A Very Big Sum
+    // use String.format(%.0f) to display number without exponential form
+    public void aVeryBigSum(int[] arr){
+        Double sum = 0.0;
+        for(int i=0; i<arr.length; i++)
+            sum += arr[i];
+        System.out.println(String.format("%.0f", sum));
+    }
+    
+    
+// === 10/21/2016 ===    
     
     
     // CTCI And Trees
