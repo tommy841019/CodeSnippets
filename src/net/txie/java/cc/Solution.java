@@ -34,7 +34,19 @@ public class Solution
     // Trees  
     // M Tree: Huffman Decoding
     void decode(String S ,Node root){
-        
+        Node node = root;
+        StringBuilder sb = new StringBuilder();
+        for(int i=0; i<S.length(); ){
+            if(node.left==null&&node.right==null) {
+                sb.append(node.data);
+                node = root;
+                continue;
+            }
+            else if(S.charAt(i)=='0') node=node.left;
+            else node=node.right;
+            i++;
+        }
+        System.out.println(sb.toString());
     }
     
     

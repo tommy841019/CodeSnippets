@@ -27,18 +27,41 @@ public class CodeSnippets
 // === 10/24/2016 ===
     
     
-    // E 257. Binary Tree Paths
+    // E 112. Path Sum
     // OJ: 
+    public boolean hasPathSum(TreeNode root, int sum) {
+        
+    }
+    
+    
+    // E 257. Binary Tree Paths
+    // OJ: PASS
+    // dfs, keep list of path and current path
+    // if leaf, add current path to path list
     public List<String> binaryTreePaths(TreeNode root) {
         List<String> paths = new LinkedList<>();
         dfs(root, paths, new LinkedList<Integer>());
-        return paths;
+        return paths; 
     }
     public void dfs(TreeNode root, List<String> paths, List<Integer> currPath){
-        if(root.left==null && root.right==null) {paths.add(currPath.toString());return;}
+        if(root==null) return;
         currPath.add(root.val);
-        dfs(root.left, paths, currPath);
-        dfs(root.right, paths, currPath);
+        if(root.left==null && root.right==null) {paths.add(pathToString(currPath));return;}
+        if(root.left!=null){
+            dfs(root.left, paths, currPath);
+            currPath.remove(currPath.size()-1);
+        }
+        if(root.right!=null){
+            dfs(root.right, paths, currPath);
+            currPath.remove(currPath.size()-1);
+        }
+    }
+    public String pathToString(List<Integer> path){
+        StringBuilder pathString = new StringBuilder();
+        pathString.append(path.get(0));
+        for(int i=1; i<path.size(); i++)
+            pathString.append("->").append(path.get(i));
+        return pathString.toString();
     }
     
     
