@@ -24,7 +24,7 @@ public class CodeSnippets
     }
 
     
-// === 10/22/2016 ===
+// === 10/24/2016 ===
     
     
     // E 257. Binary Tree Paths
@@ -109,7 +109,8 @@ public class CodeSnippets
     
     
     // E 205. Isomorphic Strings
-    // OJ: 
+    // OJ: PASS
+    // add to hashmap, compare last position which is returned from put method
     public boolean isIsomorphic(String s, String t) {
         if(s.length()!=t.length()) return false;
         HashMap hm = new HashMap();
