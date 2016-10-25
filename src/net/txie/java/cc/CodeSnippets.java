@@ -24,13 +24,43 @@ public class CodeSnippets
     }
 
     
-// === 10/24/2016 ===
+// === 10/25/2016 ===
+    
+    
+    // E 437. Path Sum III
+    // OJ: 
+    public int pathSum(TreeNode root, int sum) {
+        
+    }
+    
+    
+    // E 412. Fizz Buzz
+    // OJ: PASS
+    public List<String> fizzBuzz(int n) {
+        List<String> list = new LinkedList<>();
+        String out = "";
+        for(int i=1; i<=n; i++){
+            if(i%3==0) out+="Fizz";
+            if(i%5==0) out+="Buzz";
+            if(out.length()==0) list.add(i+"");
+            else list.add(out);
+            out="";
+        }
+        return list;
+    }
     
     
     // E 112. Path Sum
-    // OJ: 
+    // OJ: PASS
+    // return left==null&&right==null&&sum==currentSum+root.val || left || right
     public boolean hasPathSum(TreeNode root, int sum) {
-        
+        return hasPath(root, sum, 0);
+    }
+    public boolean hasPath(TreeNode root, int sum, int currentSum){
+        if(root==null) return false;
+        return (root.left==null&&root.right==null&&sum==currentSum+root.val)
+                ||hasPath(root.left, sum, currentSum+root.val)
+                ||hasPath(root.right, sum, currentSum+root.val);
     }
     
     
