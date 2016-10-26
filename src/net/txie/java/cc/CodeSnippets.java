@@ -24,7 +24,45 @@ public class CodeSnippets
     }
 
     
-// === 10/25/2016 ===
+// === 10/26/2016 ===
+    
+    
+    // E 111. Minimum Depth of Binary Tree
+    // OJ: PASS Could be more concise
+    public int minDepth(TreeNode root) {
+        int minDepth = 0;
+        if(root==null) return minDepth;
+        Queue<TreeNode> q = new LinkedList<>();
+        q.offer(root);
+        q.offer(null);
+        while(!q.isEmpty()){
+            TreeNode node = q.remove();
+            if(node!=null){
+                if(node.left==null&&node.right==null) return ++minDepth;
+                if(node.left!=null) q.offer(node.left);
+                if(node.right!=null) q.offer(node.right);
+            }
+            else{
+                if(q.size()==1&&q.peek()==null) {++minDepth;break;}
+                else {++minDepth;q.offer(null);}
+            }
+        }
+        return minDepth;
+    }
+    
+    
+    // M 230. Kth Smallest Element in a BST
+    // OJ: 
+    public int kthSmallest(TreeNode root, int k) {
+        
+    }
+    
+    
+    // M 98. Validate Binary Search Tree
+    // OJ: 
+    public boolean isValidBST(TreeNode root) {
+        
+    }
     
     
     // E 437. Path Sum III
@@ -32,6 +70,9 @@ public class CodeSnippets
     public int pathSum(TreeNode root, int sum) {
         
     }
+    
+    
+// === 10/25/2016 ===
     
     
     // E 412. Fizz Buzz
