@@ -22,6 +22,47 @@ public class CodeSnippets
         System.out.println(String.format("Time: %dms", System.currentTimeMillis() - start));
 
     }
+    
+    
+// === 10/28/2016 ===
+    
+    
+    // M 230. Kth Smallest Element in a BST
+    // OJ: 
+    public int kthSmallest(TreeNode root, int k) {
+        
+    }
+    
+    
+    // M 98. Validate Binary Search Tree
+    // OJ: 
+    public boolean isValidBST(TreeNode root) {
+        
+    }
+    
+    
+    // E 437. Path Sum III
+    // OJ: 
+    public int pathSum(TreeNode root, int sum) {
+        if(root==null) return 0;
+        int number = 0;
+        Queue<TreeNode> q = new LinkedList<>();
+        q.offer(root);
+        while(!q.isEmpty()){
+            TreeNode node = q.remove();
+            if(node==null) continue;
+            q.offer(node.left);
+            q.offer(node.right);
+            number += countPath(node, sum, 0, 0);
+        }
+        return number;
+    }   
+    public int countPath(TreeNode node, int sum, int currSum, int count){
+        if(node==null) return count;
+        currSum += node.val;
+        if(sum==currSum) count++;
+        return countPath(node.left, sum, currSum, count)+countPath(node.right, sum, currSum, count);
+    }
 
     
 // === 10/26/2016 ===
@@ -49,28 +90,7 @@ public class CodeSnippets
         }
         return minDepth;
     }
-    
-    
-    // M 230. Kth Smallest Element in a BST
-    // OJ: 
-    public int kthSmallest(TreeNode root, int k) {
-        
-    }
-    
-    
-    // M 98. Validate Binary Search Tree
-    // OJ: 
-    public boolean isValidBST(TreeNode root) {
-        
-    }
-    
-    
-    // E 437. Path Sum III
-    // OJ: 
-    public int pathSum(TreeNode root, int sum) {
-        
-    }
-    
+
     
 // === 10/25/2016 ===
     
