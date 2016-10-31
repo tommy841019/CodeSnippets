@@ -24,7 +24,7 @@ public class CodeSnippets
     }
     
     
-// === 10/28/2016 ===
+// === 10/31/2016 ===
     
     
     // M 230. Kth Smallest Element in a BST
@@ -42,8 +42,29 @@ public class CodeSnippets
     
     
     // E 437. Path Sum III
-    // OJ: 
+    // OJ: PASS
+    // Pre-Order + DFS
+    int total = 0;
     public int pathSum(TreeNode root, int sum) {
+        path(root, sum);
+        return total;
+    }   
+    public void path(TreeNode node, int sum){
+        if(node == null) return;
+        total += countPathByNode(node, sum, 0, 0);
+        path(node.left, sum);
+        path(node.right, sum);
+    }
+    public int countPathByNode(TreeNode node, int sum, int currSum, int count){
+        if(node==null) return count;
+        currSum += node.val;
+        if(sum==currSum) count++;
+        count = countPathByNode(node.left, sum, currSum, count);
+        count = countPathByNode(node.right, sum, currSum, count);
+        return count;
+    }
+    // BFS + DFS
+    public int pathSumBFS(TreeNode root, int sum) {
         if(root==null) return 0;
         int number = 0;
         Queue<TreeNode> q = new LinkedList<>();
@@ -61,7 +82,9 @@ public class CodeSnippets
         if(node==null) return count;
         currSum += node.val;
         if(sum==currSum) count++;
-        return countPath(node.left, sum, currSum, count)+countPath(node.right, sum, currSum, count);
+        count = countPath(node.left, sum, currSum, count);
+        count = countPath(node.right, sum, currSum, count);
+        return count;
     }
 
     
@@ -70,6 +93,7 @@ public class CodeSnippets
     
     // E 111. Minimum Depth of Binary Tree
     // OJ: PASS Could be more concise
+    // BFS
     public int minDepth(TreeNode root) {
         int minDepth = 0;
         if(root==null) return minDepth;
