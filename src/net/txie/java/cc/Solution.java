@@ -28,6 +28,19 @@ public class Solution
     }
     
     
+// === 10/30/2016 ===
+    
+    
+    // WalmartLabs Codesprint (Algorithms)  
+    // E Hiking Selfies
+    public static void hickingSelfies() {
+        Scanner in = new Scanner(System.in);
+        int n = in.nextInt();
+        int x = in.nextInt();
+        System.out.println(String.format("%.0f", Math.abs(x - Math.pow(2, n) + 1)));
+    }
+    
+    
 // === 10/25/2016 ===
     
     
