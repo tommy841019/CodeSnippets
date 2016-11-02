@@ -24,7 +24,7 @@ public class CodeSnippets
     }
     
     
-// === 10/31/2016 ===
+// === 11/02/2016 ===
     
     
     // M 230. Kth Smallest Element in a BST
@@ -39,6 +39,9 @@ public class CodeSnippets
     public boolean isValidBST(TreeNode root) {
         
     }
+    
+    
+// === 10/31/2016 ===
     
     
     // E 437. Path Sum III
