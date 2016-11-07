@@ -41,6 +41,28 @@ public class CodeSnippets
     }
     
     
+// === 11/07/2016 ===
+    
+    
+    
+    
+    
+    // E 453. Minimum Moves to Equal Array Elements
+    // OJ: 
+    //
+    public int minMoves(int[] nums) {
+        Arrays.sort(nums);
+        int min = nums[0];
+        for(int i=0; i<nums.length; i++)
+            nums[i] = nums[i] - min;
+        
+        for(int i=1; i<nums.length; i++)
+            nums[0] += nums[i];
+        
+        return nums[0];
+    }
+    
+    
 // === 10/31/2016 ===
     
     
