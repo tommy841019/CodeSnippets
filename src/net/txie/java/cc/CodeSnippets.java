@@ -41,15 +41,47 @@ public class CodeSnippets
     }
     
     
-// === 11/07/2016 ===
+// === 11/10/2016 ===
     
     
+    // E 441. Arranging Coins
+    // OJ: 
+    // 
+    public int arrangeCoins(int n) {
+        
+    }
     
+    
+    // E 447. Number of Boomerangs
+    // OJ: 
+    //
+    public int numberOfBoomerangs(int[][] points) {
+        int res = 0;
+        HashMap<Integer, Integer> hm = new HashMap<>();
+        for(int i=0; i<points.length; i++){
+            int key = points[i][0] - points[0][0] + points[i][1] - points[0][1];
+            if(hm.containsKey(key))
+                hm.put(key, hm.get(key)+1);
+            else
+                hm.put(key, 1);
+        }
+        for(int i : hm.keySet()){
+            for(int j=1; j<=1000; j++){
+                int a = hm.containsKey(i-j) ? hm.get(i-j) : 0;
+                int b = hm.containsKey(i+j) ? hm.get(i+j) : 0;
+                res += 2*a*b;
+            }
+        }
+        return res;
+    }
+    
+       
+// === 11/07/2016 ===    
     
     
     // E 453. Minimum Moves to Equal Array Elements
-    // OJ: 
-    //
+    // OJ: Pass
+    // Subtract min, and sum
     public int minMoves(int[] nums) {
         Arrays.sort(nums);
         int min = nums[0];
