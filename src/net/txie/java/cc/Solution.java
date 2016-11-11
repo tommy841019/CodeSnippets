@@ -28,6 +28,40 @@ public class Solution
     }
     
     
+// === 11/05/2016 ===
+    
+    
+    // NCR CodeSprint  
+    // E Spiral Message
+    // 
+    public static void spiralMessage(String[] args) {
+        
+    }
+    
+    
+    // NCR CodeSprint  
+    // E Counting Mistakes
+    // PASS
+    public static void countMistakes(String[] args) {
+        Scanner in = new Scanner(System.in);
+        int n = in.nextInt();
+        int count = 0;
+        int pre = 0;
+        for(int i=1; i<=n; i++){
+            int num = in.nextInt();
+            if(i==1){
+                if(num!=1) count++;
+                pre = num;
+                continue;
+            }
+            
+            if(num-pre!=1) count++;
+            pre = num;
+        }
+        System.out.println(count);
+    }
+    
+    
 // === 10/30/2016 ===
     
     

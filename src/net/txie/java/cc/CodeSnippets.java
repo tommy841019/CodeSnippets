@@ -54,7 +54,8 @@ public class CodeSnippets
     
     
     // E 453. Minimum Moves to Equal Array Elements
-    // OJ: Pass with hint
+    // OJ: 
+    //
     public int minMoves(int[] nums) {
         Arrays.sort(nums);
         int min = nums[0];
