@@ -44,12 +44,17 @@ public class CodeSnippets
 // === 11/07/2016 ===
     
     
-    
+    // E 447. Number of Boomerangs
+    // OJ:
+    // 
+    public int numberOfBoomerangs(int[][] points) {
+        HashMap<Integer[][], Integer> hm = new HashMap<>();
+        
+    }
     
     
     // E 453. Minimum Moves to Equal Array Elements
-    // OJ: 
-    //
+    // OJ: Pass with hint
     public int minMoves(int[] nums) {
         Arrays.sort(nums);
         int min = nums[0];
