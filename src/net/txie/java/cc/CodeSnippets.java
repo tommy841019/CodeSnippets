@@ -46,7 +46,7 @@ public class CodeSnippets
     
     // E 172. Factorial Trailing Zeroes
     // OJ: PASS with Hint
-    // divided by 5
+    // divided by 5 to count number of 5
     public int trailingZeroes(int n) {
         int counter = 0;
         while(n>0){
