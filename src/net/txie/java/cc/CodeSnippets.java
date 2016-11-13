@@ -18,7 +18,7 @@ public class CodeSnippets
     {
         CodeSnippets cs = new CodeSnippets();
         long start = System.currentTimeMillis();
-        System.out.println(cs.wordPattern("aba", "b a a"));
+        System.out.println(cs.numberOfBoomerangs(new int[][]{{0,0},{1,0},{0,1}}));
         System.out.println(String.format("Time: %dms", System.currentTimeMillis() - start));
 
     }
@@ -41,38 +41,59 @@ public class CodeSnippets
     }
     
     
-// === 11/10/2016 ===
+// === 11/12/2016 ===
+    
+    
+    // E 172. Factorial Trailing Zeroes
+    // OJ: PASS with Hint
+    // divided by 5
+    public int trailingZeroes(int n) {
+        int counter = 0;
+        while(n>0){
+            n /= 5;
+            counter += n;
+        }
+        return counter;
+    }   
     
     
     // E 441. Arranging Coins
-    // OJ: 
-    // 
+    // OJ: PASS
+    // check and reduce
     public int arrangeCoins(int n) {
-        
+        int counter = 0;
+        for(int i=1; n>0; counter++, i++){
+            if(n<i) break;
+            else n -= i;
+        }
+        return counter;
     }
     
     
     // E 447. Number of Boomerangs
-    // OJ: 
-    //
+    // OJ: PASS
+    // Calculate distance for each group, put into hashmap, count =+ n*(n-1)
     public int numberOfBoomerangs(int[][] points) {
         int res = 0;
-        HashMap<Integer, Integer> hm = new HashMap<>();
+        HashMap<Double, Integer> hm = new HashMap<>();
         for(int i=0; i<points.length; i++){
-            int key = points[i][0] - points[0][0] + points[i][1] - points[0][1];
-            if(hm.containsKey(key))
-                hm.put(key, hm.get(key)+1);
-            else
-                hm.put(key, 1);
-        }
-        for(int i : hm.keySet()){
-            for(int j=1; j<=1000; j++){
-                int a = hm.containsKey(i-j) ? hm.get(i-j) : 0;
-                int b = hm.containsKey(i+j) ? hm.get(i+j) : 0;
-                res += 2*a*b;
+            for(int j=0; j<points.length; j++){
+                if(j==i) continue;
+                Double key = getDistance(Math.abs(points[j][0]-points[i][0]), Math.abs(points[j][1]-points[i][1]));
+                if(hm.containsKey(key))
+                    hm.put(key, hm.get(key)+1);
+                else
+                    hm.put(key, 1);
             }
+            for(Double key : hm.keySet()){
+                if(hm.get(key)>0) res += hm.get(key)*(hm.get(key)-1);
+            }
+            hm = new HashMap<>();
         }
         return res;
+    }
+    public Double getDistance(int x, int y){
+        return Math.sqrt(Math.pow(x, 2)+Math.pow(y, 2));
     }
     
        
