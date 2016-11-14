@@ -24,20 +24,58 @@ public class CodeSnippets
     }
     
     
-// === 11/13/2016 ===
+// === 11/14/2016 ===
+    
+    
+    // E 19. Remove Nth Node From End of List
+    // OJ: 
+    //
+    public ListNode removeNthFromEnd(ListNode head, int n) {
+        if(head==null || head.next==null) return null;
+        ListNode reverseListNodeHead = reverseList(head);
+        ListNode curr = reverseListNodeHead, pre;
+        while(n>0){
+            if(n==1){
+                
+            }
+        }
+        return reverseList(reverseListNodeHead);
+    }
+    public ListNode reverseList(ListNode head){
+        ListNode curr = head, next;
+        while(curr.next != null){
+            next = curr.next;
+            next.next = curr;
+            curr = next;
+        }
+        return curr;
+    }
     
     
     // E 374. Guess Number Higher or Lower
-    // 
-    //
+    // OJ: PASS
+    // binary search
+    // be careful about int overflow, need to use double when calculating index
     public int guessNumber(int n) {
-        
+        return numberRange(1, n);
+    }
+    public int numberRange(int start, int end){
+        int mid = (int)((start*1.0 + end*1.0)/2);
+        int res = guess(mid);
+        if(res==0) return mid;
+        else if(res==1) return numberRange(mid+1, end);
+        else return numberRange(start, mid-1);
+    }
+    // pre-defined api
+    public int guess(int n){
+        return 0;
     }
     
     
     // E 438. Find All Anagrams in a String
-    // OJ: 
-    // sliding window
+    // OJ:  PASS
+    // sliding window: window size = p.length()-1
+    // each iteration, move in one, check diff, move out one
     public List<Integer> findAnagrams(String s, String p) {
         List<Integer> l = new LinkedList<>();
         if(s.length()>=p.length()){
@@ -50,10 +88,10 @@ public class CodeSnippets
                 window[s.charAt(i)-'a']++;
             for(int i=0; i<26; i++)
                 diffCounter += Math.abs(pArray[i]-window[i]);
-            for(int i=p.length(); i<s.length(); i++){
-                diffCounter += window[s.charAt(i)-'a']++ > pArray[s.charAt(i)-'a'] ? 1 : -1;
-                if(diffCounter == 0) l.add(i-p.length());
-                diffCounter += window[s.charAt(i-p.length())-'a']-- < pArray[s.charAt(i-p.length())-'a'] ? 1 : -1;
+            for(int i=p.length()-1; i<s.length(); i++){
+                diffCounter += (++window[s.charAt(i)-'a']) > pArray[s.charAt(i)-'a'] ? 1 : -1;
+                if(diffCounter == 0) l.add(i-p.length()+1);
+                diffCounter += (--window[s.charAt(i-p.length()+1)-'a']) < pArray[s.charAt(i-p.length()+1)-'a'] ? 1 : -1;
             }
         }
         return l;
@@ -78,6 +116,9 @@ public class CodeSnippets
         }
         return hs;
     }
+    
+    
+// === 11/13/2016 ===
     
     
     // E 9. Palindrome Number
