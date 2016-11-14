@@ -18,26 +18,79 @@ public class CodeSnippets
     {
         CodeSnippets cs = new CodeSnippets();
         long start = System.currentTimeMillis();
-        System.out.println(cs.numberOfBoomerangs(new int[][]{{0,0},{1,0},{0,1}}));
+        System.out.println(cs.findAnagrams("cbaebabacd", "abc"));
         System.out.println(String.format("Time: %dms", System.currentTimeMillis() - start));
 
     }
     
     
-// === 11/02/2016 ===
+// === 11/13/2016 ===
     
     
-    // M 230. Kth Smallest Element in a BST
-    // OJ: 
-    public int kthSmallest(TreeNode root, int k) {
+    // E 374. Guess Number Higher or Lower
+    // 
+    //
+    public int guessNumber(int n) {
         
     }
     
     
-    // M 98. Validate Binary Search Tree
+    // E 438. Find All Anagrams in a String
     // OJ: 
-    public boolean isValidBST(TreeNode root) {
-        
+    // sliding window
+    public List<Integer> findAnagrams(String s, String p) {
+        List<Integer> l = new LinkedList<>();
+        if(s.length()>=p.length()){
+            int[] pArray = new int[26];
+            int[] window = new int[26];
+            int diffCounter = 0;
+            for(int i=0; i<p.length(); i++)
+                pArray[p.charAt(i)-'a']++;
+            for(int i=0; i<p.length()-1; i++)
+                window[s.charAt(i)-'a']++;
+            for(int i=0; i<26; i++)
+                diffCounter += Math.abs(pArray[i]-window[i]);
+            for(int i=p.length(); i<s.length(); i++){
+                diffCounter += window[s.charAt(i)-'a']++ > pArray[s.charAt(i)-'a'] ? 1 : -1;
+                if(diffCounter == 0) l.add(i-p.length());
+                diffCounter += window[s.charAt(i-p.length())-'a']-- < pArray[s.charAt(i-p.length())-'a'] ? 1 : -1;
+            }
+        }
+        return l;
+    }
+    // brute force
+    // OJ: timeout
+    // double space, O(n)
+    public List<Integer> findAnagramsBruteForce(String s, String p) {
+        List<Integer> l = new LinkedList<>();
+        HashSet<String> set = getAnagramsByDoubleSpace(p);
+        for(int i=0; i<s.length()-p.length()+1; i++)
+            if(set.contains(s.substring(i, i+p.length()))) l.add(i);
+        return l;
+    }
+    public HashSet<String> getAnagramsByDoubleSpace(String p){
+        HashSet<String> hs = new HashSet<>();
+        String s = p+p;
+        for(int i=0; i<p.length(); i++){
+            hs.add(s.substring(i, i+p.length()));
+            StringBuilder sb = new StringBuilder(s.substring(i, i+p.length()));
+            hs.add(sb.reverse().toString());
+        }
+        return hs;
+    }
+    
+    
+    // E 9. Palindrome Number
+    // OJ: PASS
+    // calculate a new number, return if equal
+    public boolean isPalindrome(int x) {
+        int n = 0, x1 = x;
+        while(x1>0){
+            n *= 10;
+            n += x1%10;
+            x1 = x1/10;
+        }
+        return n==x;
     }
     
     
