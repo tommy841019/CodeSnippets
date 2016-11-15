@@ -18,38 +18,73 @@ public class CodeSnippets
     {
         CodeSnippets cs = new CodeSnippets();
         long start = System.currentTimeMillis();
-        System.out.println(cs.findAnagrams("cbaebabacd", "abc"));
+        ListNode head = new ListNode(1);
+        ListNode node2 = new ListNode(2);
+        ListNode node3 = new ListNode(3);
+        ListNode node4 = new ListNode(4);
+        ListNode node5 = new ListNode(5);
+        head.next = node2;
+        node2.next=node3;
+        node3.next = node4;
+        node4.next = node5;
+        System.out.println(cs.reverseList19(head));
         System.out.println(String.format("Time: %dms", System.currentTimeMillis() - start));
 
     }
     
     
-// === 11/14/2016 ===
+// === 11/15/2016 ===
+    
+    
+    // E 223. Rectangle Area
+    // OJ: 
+    //
+    public int computeArea(int A, int B, int C, int D, int E, int F, int G, int H) {
+        int res;
+        if(A>E&&B>F&&C<G&&D<H) res = (G-E)*(H-F);
+        else if(A<E&&B<F&&C>G&&D>H) res = (C-A)*(D-B);
+        else if(E>=C || G<=A || F>=D || H<=B) res = (G-E)*(H-F) + (C-A)*(D-B);
+        else res = (Math.max(C, G)-Math.min(A, E))*(Math.max(D, H)-Math.min(B, F))
+                -(Math.max(B, F)-Math.min(B, F))*(Math.max(A, E)-Math.min(A, E))
+                -(Math.max(C, G)-Math.min(C, G))*(Math.max(D, H)-Math.min(D, H));
+        return res;
+    }
     
     
     // E 19. Remove Nth Node From End of List
-    // OJ: 
-    //
+    // OJ: PASS
+    // Reverse list, remove, reverse
     public ListNode removeNthFromEnd(ListNode head, int n) {
         if(head==null || head.next==null) return null;
-        ListNode reverseListNodeHead = reverseList(head);
-        ListNode curr = reverseListNodeHead, pre;
-        while(n>0){
-            if(n==1){
-                
+        ListNode reverseListNodeHead = reverseList19(head);
+        ListNode curr = reverseListNodeHead, pre=null;
+        while(--n>=0){
+            if(n==0){
+                if(pre==null) reverseListNodeHead = curr.next;
+                else pre.next = curr.next;
+            }
+            else{
+                pre = curr;
+                curr = curr.next;
             }
         }
-        return reverseList(reverseListNodeHead);
+        return reverseList19(reverseListNodeHead);
     }
-    public ListNode reverseList(ListNode head){
-        ListNode curr = head, next;
-        while(curr.next != null){
-            next = curr.next;
+    public ListNode reverseList19(ListNode head){
+        ListNode curr = head, next = head.next, pre = null;
+        while(next != null){
+            ListNode tmp = next.next;
+            curr.next = pre;
             next.next = curr;
+            pre = curr;
             curr = next;
+            next = tmp;
         }
         return curr;
     }
+    
+    
+// === 11/14/2016 ===
     
     
     // E 374. Guess Number Higher or Lower
