@@ -33,22 +33,57 @@ public class CodeSnippets
     }
     
     
-// === 11/15/2016 ===
+// === 11/16/2016 ===
+    
+    
+    // E 459. Repeated Substring Pattern
+    // OJ: PASS
+    // KMP
+    public boolean repeatedSubstringPattern(String str) {
+        
+    }
+    // Brute force O(n2): test every possible from sub lenght = 1 to n/2
+    public boolean repeatedSubstringPatternBruteForce(String str) {
+        for(int i=0; i<str.length()/2; i++){
+            String sub = str.substring(0, i+1);
+            if(isFoundSubstringBruteForce(str, sub)) return true;
+        }
+        return false;
+    }
+    public boolean isFoundSubstringBruteForce(String str, String sub){
+        for(int j=sub.length(); j<str.length(); j++)
+                if(sub.charAt(j%sub.length())!=str.charAt(j)) return false;
+        return true;
+    }
+    
+    
+    // E 455. Assign Cookies
+    // OJ: PASS
+    // two pointer, s>=g -> count++
+    public int findContentChildren(int[] g, int[] s) {
+        Arrays.sort(g);
+        Arrays.sort(s);
+        int count = 0;
+        for(int i=0, j=0; i<g.length && j<s.length; ){
+            if(g[i]<=s[j]) {count++;i++;j++;}
+            else j++;
+        }
+        return count;
+    }
     
     
     // E 223. Rectangle Area
-    // OJ: 
-    //
+    // OJ: PASS
+    // More compact with hint
+    // find max area, substract overlap if exists
     public int computeArea(int A, int B, int C, int D, int E, int F, int G, int H) {
-        int res;
-        if(A>E&&B>F&&C<G&&D<H) res = (G-E)*(H-F);
-        else if(A<E&&B<F&&C>G&&D>H) res = (C-A)*(D-B);
-        else if(E>=C || G<=A || F>=D || H<=B) res = (G-E)*(H-F) + (C-A)*(D-B);
-        else res = (Math.max(C, G)-Math.min(A, E))*(Math.max(D, H)-Math.min(B, F))
-                -(Math.max(B, F)-Math.min(B, F))*(Math.max(A, E)-Math.min(A, E))
-                -(Math.max(C, G)-Math.min(C, G))*(Math.max(D, H)-Math.min(D, H));
-        return res;
+        int res = (G-E)*(H-F) + (C-A)*(D-B);
+        if(E>=C || G<=A || F>=D || H<=B) return res;
+        else return res - (Math.min(C, G)-Math.max(A, E))*(Math.min(H, D)-Math.max(F, B));
     }
+    
+    
+// === 11/15/2016 ===
     
     
     // E 19. Remove Nth Node From End of List
