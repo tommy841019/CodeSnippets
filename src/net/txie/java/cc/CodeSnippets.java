@@ -33,7 +33,31 @@ public class CodeSnippets
     }
     
     
-// === 11/16/2016 ===
+// === 11/17/2016 ===
+    
+    
+    // E 203. Remove Linked List Elements
+    // OJ: 
+    //
+    public ListNode removeElements(ListNode head, int val) {
+        
+    }
+    
+    
+    // E 58. Length of Last Word
+    // OJ: 
+    // 
+    public int lengthOfLastWord(String s) {
+        
+    }
+    
+    
+    // E 234. Palindrome Linked List
+    // OJ: 
+    //
+    public boolean isPalindrome(ListNode head) {
+        
+    }
     
     
     // E 459. Repeated Substring Pattern
@@ -55,6 +79,9 @@ public class CodeSnippets
                 if(sub.charAt(j%sub.length())!=str.charAt(j)) return false;
         return true;
     }
+    
+    
+// === 11/16/2016 ===
     
     
     // E 455. Assign Cookies
