@@ -33,7 +33,7 @@ public class CodeSnippets
     }
     
     
-// === 11/17/2016 ===
+// === 11/18/2016 ===
     
     
     // E 203. Remove Linked List Elements
@@ -44,19 +44,43 @@ public class CodeSnippets
     }
     
     
+// === 11/17/2016 ===
+    
+    
     // E 58. Length of Last Word
-    // OJ: 
-    // 
+    // OJ: PASS
+    // run from end, check ' ' or reach head
     public int lengthOfLastWord(String s) {
-        
+        boolean isLastWordStarted = false;
+        int start = 0;
+        for(int i=s.length()-1; i>=0; i--){
+            if(s.charAt(i)!=' '&&!isLastWordStarted) {isLastWordStarted=true;start=i;}  
+            if(s.charAt(i)==' '&&isLastWordStarted) return start-i;
+            if(i==0&&isLastWordStarted) return start+1;
+        }
+        return 0;
     }
     
     
     // E 234. Palindrome Linked List
     // OJ: 
-    //
+    // Slow Fast Pointer
     public boolean isPalindrome(ListNode head) {
-        
+
+    }
+    // OJ: PASS
+    // put list into array, two pointer
+    // O(n) time O(n) space
+    public boolean isPalindromeArrayList(ListNode head) {
+        if(head == null) return true;
+        ArrayList<Integer> list = new ArrayList<>();
+        while(head!=null){
+            list.add(head.val);
+            head=head.next;
+        }
+        for(int i=0,j=list.size()-1; i<=j; i++,j--)
+            if(!list.get(i).equals(list.get(j))) return false;
+        return true;
     }
     
     
