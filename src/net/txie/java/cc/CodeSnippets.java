@@ -33,14 +33,66 @@ public class CodeSnippets
     }
     
     
+// === 11/21/2016 ===
+    
+    
+    // E 463. Island Perimeter
+    // OJ: 
+    // 
+    public int islandPerimeter(int[][] grid) {
+        
+    }
+    
+    
+    // E 400. Nth Digit
+    // OJ: 
+    //
+    public int findNthDigit(int n) {
+        
+    }
+    
+    
+// === 11/20/2016 ===
+    
+    
+    // E 14. Longest Common Prefix
+    // OJ: PASS with hint
+    // Since to find longest, start with longest
+    // if found in every str, return lcp
+    // if not found in any str, reduce lcp length by 1
+    public String longestCommonPrefix(String[] strs) {
+        String lcp = strs.length == 0 ? "" : strs[0];
+        for(String str : strs){
+            while(!str.startsWith(lcp))
+                lcp = lcp.substring(0, lcp.length()-1);
+        }
+        return lcp;
+    }
+    
+    
 // === 11/18/2016 ===
     
     
     // E 203. Remove Linked List Elements
-    // OJ: 
-    //
+    // OJ: PASS
+    // move one by one, check if head, track curr and pre
     public ListNode removeElements(ListNode head, int val) {
-        
+        ListNode curr = head, pre = null;
+        while(curr!=null){
+            if(curr.val == val){
+                if(pre == null){
+                    head = curr.next;
+                }
+                else{
+                    pre.next = curr.next;
+                }
+            } 
+            else {
+                pre = curr;
+            }
+            curr = curr.next;
+        }
+        return head;
     }
     
     
