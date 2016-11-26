@@ -18,37 +18,120 @@ public class CodeSnippets
     {
         CodeSnippets cs = new CodeSnippets();
         long start = System.currentTimeMillis();
-        ListNode head = new ListNode(1);
-        ListNode node2 = new ListNode(2);
-        ListNode node3 = new ListNode(3);
-        ListNode node4 = new ListNode(4);
-        ListNode node5 = new ListNode(5);
-        head.next = node2;
-        node2.next=node3;
-        node3.next = node4;
-        node4.next = node5;
-        System.out.println(cs.reverseList19(head));
+        System.out.println(6&1);
         System.out.println(String.format("Time: %dms", System.currentTimeMillis() - start));
 
     }
     
     
-// === 11/21/2016 ===
+// === 11/26/2016 ===
+    
+    
+    // 190. Reverse Bits
+    // OJ: 
+    //
+    public int reverseBits(int n) {
+        int res = 0;
+        for(int i=0; i<32; i++){
+            res += (n&1) * Math.pow(2, 31-i);
+            n = n>>>1;
+        }
+        return res;
+    }
+    
+    
+// === 11/25/2016 ===
+    
+    
+    // 67. Add Binary
+    // OJ: PASS
+    // from right to left, calculate carry
+    // check carry at last
+    public String addBinary(String a, String b) {
+        if(a.length()==0) return b;
+        if(b.length()==0) return a;
+        if(a.length()>b.length()){
+            String tmp = a;
+            a = b;
+            b = tmp;
+        }
+        StringBuilder sb = new StringBuilder();
+        int carry = 0;
+        for(int i=a.length()-1,j=b.length()-1; i>=0; i--,j--){
+            int res = a.charAt(i)-'0'+b.charAt(j)-'0'+carry;
+            if(res==3) {carry = 1; res = 1;}
+            else if(res==2) {carry = 1; res = 0;}
+            else carry = 0;
+            sb.append(res);
+        }
+        for(int i=b.length()-a.length()-1; i>=0; i--){
+            int res = b.charAt(i)-'0'+carry;
+            if(res==2) {carry = 1; res = 0;}
+            else carry = 0;
+            sb.append(res);
+        }
+        if(carry==1) sb.append('1');
+        return sb.reverse().toString();
+    }
+    
+    
+    // 160. Intersection of Two Linked Lists
+    // OJ: PASS
+    // use HashSet to track node history
+    // return node if found duplicate
+    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+        if(headA==null || headB==null) return null;
+        HashSet<ListNode> hs = new HashSet<>();
+        while(headA!=null || headB!=null){
+            if(hs.contains(headA))
+                return headA;
+            if(hs.contains(headB))
+                return headB;
+            if(headA==headB)
+                return headA;
+            if(headA!=null) {hs.add(headA);headA = headA.next;}
+            if(headB!=null) {hs.add(headB);headB = headB.next;}
+        }
+        return null;
+    }
+    
+    
+// === 11/24/2016 ===
     
     
     // E 463. Island Perimeter
-    // OJ: 
-    // 
+    // OJ: PASS
+    // loop through array, check left right up and down
     public int islandPerimeter(int[][] grid) {
-        
+        int perimeter = 0;
+        for(int y=0; y<grid.length; y++){
+            for(int x=0; x<grid[y].length; x++){
+                if(grid[y][x]==1){
+                    if(x-1<0 || grid[y][x-1]==0) perimeter++;
+                    if(x+1>=grid[y].length || grid[y][x+1]==0) perimeter++;
+                    if(y-1<0 || grid[y-1][x]==0) perimeter++;
+                    if(y+1>=grid.length || grid[y+1][x]==0) perimeter++;
+                }
+            }
+        }
+        return perimeter;
     }
     
     
     // E 400. Nth Digit
-    // OJ: 
-    //
+    // OJ: PASS with hint
+    // find first number of each section, find number of digits
+    // find the number, find the nth digit
+    // use chartAt to get the digit
     public int findNthDigit(int n) {
-        
+        n -= 1; // make index start with 0, so can use % to get the digit
+        int first = 1, d = 1;
+        while(n/first/d/9>=1){ // use divide to avoid overflow
+            n -= first*d*9;
+            d += 1;
+            first *= 10;
+        }
+        return (first+n/d+"").charAt(n%d)-'0';
     }
     
     
